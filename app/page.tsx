@@ -6,8 +6,8 @@ import AssetActionButtons from '@/components/ui/AssetActionButtons/AssetActionBu
 export default function Home() {
   return (
     <>
-      <LoanActionButtons loanPath="/rental" returnPath="/return" />
       <AssetActionButtons assetPath="/asset" />
+      <LoanActionButtons loanPath="/rental" returnPath="/return" />
     </>
   );
 }
