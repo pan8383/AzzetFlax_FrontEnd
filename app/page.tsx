@@ -1,13 +1,21 @@
 'use client';
 
-import LoanActionButtons from '@/components/ui/RentalActionButtons';
-import AssetActionButtons from '@/components/ui/AssetActionButtons/AssetActionButtons.modules';
+import Link from 'next/link';
+import styles from './page.module.css';
 
 export default function Home() {
   return (
-    <>
-      <AssetActionButtons assetPath="/asset" />
-      <LoanActionButtons loanPath="/rental" returnPath="/return" />
-    </>
+    <div>
+      <Link href="/assets" className={styles.linkButton}>
+        資産一覧
+      </Link>
+      <Link href="/assets/register" className={styles.linkButton}>
+        資産登録
+      </Link>
+
+      <Link href="/users/register" className={styles.linkButton}>
+        ユーザー登録
+      </Link>
+    </div>
   );
 }

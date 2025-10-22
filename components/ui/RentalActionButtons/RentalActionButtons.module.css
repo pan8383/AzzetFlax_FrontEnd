@@ -1,0 +1,10 @@
+.rental_acction_container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+.rental_acction_container > button {
+  width: 200px;
+  height: 100px;
+  border: 3px solid rgb(238, 205, 205);
+}

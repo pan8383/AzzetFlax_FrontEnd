@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import styles from './RentalActionButtons.module.css';
 
 interface LoanActionButtonsProps {
   loanPath: string;
@@ -10,17 +11,17 @@ export default function LoanActionButtons({ loanPath, returnPath }: LoanActionBu
   const router = useRouter();
 
   const handleLoan = () => {
-    router.push(loanPath); // 貸出画面へ遷移
+    router.push(loanPath);
   };
 
   const handleReturn = () => {
-    router.push(returnPath); // 返却画面へ遷移
+    router.push(returnPath);
   };
 
   return (
-    <div>
-      <button onClick={handleLoan}>貸出</button>
-      <button onClick={handleReturn}>返却</button>
+    <div className={styles.rental_acction_container}>
+      <button onClick={handleLoan}>借りる</button>
+      <button onClick={handleReturn}>返す</button>
     </div>
   );
 }

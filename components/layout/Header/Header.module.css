@@ -5,12 +5,11 @@
 }
 
 .site_header .container {
-  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1rem;
+  padding: 0 2em;
 }
 
 .logo {
@@ -33,4 +32,65 @@
 
 .nav a:hover {
   text-decoration: underline;
+}
+
+.Loginform_container {
+  color: #333;
+}
+
+.Loginform_button {
+  right: 0;
+
+  background-color: transparent;
+  border: none;
+  border-radius: 6px;
+  transition:
+    scale 0.5s ease,
+    background-position 0.5s ease;
+}
+.Loginform_button:hover {
+  scale: 1.1;
+}
+
+.Loginform_icon_img {
+  width: 40px;
+  height: auto;
+  filter: brightness(0) invert(1);
+}
+
+/* モーダルの背景 */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* 半透明の黒背景 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* モーダルの中身 */
+.modalContent {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+/* アニメーション（お好み） */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
