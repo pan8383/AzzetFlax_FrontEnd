@@ -1,0 +1,39 @@
+/* BaseButton.module.css */
+.button {
+  min-width: 125px;
+  max-width: 190px;
+  /* width: 100%; レスポンシブ対応の場合*/
+  height: 52px;
+  padding: 0 15px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  background-color: var(--secondary);
+  border: none;
+  border-radius: 6px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.05);
+  font-size: 20px;
+  font-weight: bold;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.button:hover {
+  transform: scale(1.1);
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon svg {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  top: 2px;
+  transition: transform 0.2s ease;
+}

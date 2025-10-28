@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { Asset } from '@/types/assets';
+import { Asset } from 'types/assets';
 import { useDeleteAssets } from '@/stores/asset/useDeleteAssets';
 import React, { useState } from 'react';
-import ConfirmModal from '@/components/ui/ConfirmModal';
+import ConfirmModal from 'components/ui/ConfirmModal';
 import { useRouter } from 'next/navigation';
 
 export default function DeleteAssetConfirm() {

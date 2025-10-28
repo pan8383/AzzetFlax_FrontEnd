@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { useAssets } from '@/hooks/useAssets';
 import Pagination from '@/components/common/Pagination/Pagination';
 import { AssetsEntity } from '@/types/assets';
 import styles from './AssetsList.module.css';
+import { useAssets } from '@/components/hooks/useAssets';
 
 export default function AssetsLists() {
     const { assets, loading, fetchError, pageInfo, updateQueryParams } = useAssets();
@@ -64,7 +64,6 @@ export default function AssetsLists() {
                         <th className={styles.th} onClick={() => onSort('category')}>カテゴリ</th>
                         <th className={styles.th} onClick={() => onSort('model')}>モデル</th>
                         <th className={styles.th} onClick={() => onSort('stock')}>在庫</th>
-                        <th className={styles.th}>操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,10 +74,6 @@ export default function AssetsLists() {
                             <td className={styles.td}>{asset.category}</td>
                             <td className={styles.td}>{asset.model}</td>
                             <td className={styles.td}>{asset.stock}</td>
-                            <td className={styles.td}>
-                                <button className={styles.buttonEdit}>編集</button>
-                                <button className={styles.buttonDelete}>削除</button>
-                            </td>
                         </tr>
                     ))}
                 </tbody>

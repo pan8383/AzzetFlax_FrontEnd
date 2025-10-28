@@ -2,7 +2,7 @@
 
 import styles from './page.module.css';
 import LoginForm from '@/app/login/_components/LoginForm';
-import Loader from '@/components/common/Loader';
+import Loader from 'components/common/Loader';
 
 export default function Home() {
   return (

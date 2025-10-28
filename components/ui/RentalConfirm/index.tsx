@@ -2,7 +2,7 @@
 import { useRentalAssets } from '@/stores/rental/useRentalAssets';
 import axios from 'axios';
 
-import { RentalAsset } from '@/types/assets';
+import { RentalAsset } from 'types/assets';
 
 export default function RentalConfirm() {
   const selectedAssets = useRentalAssets((data) => data.selectedAssets);

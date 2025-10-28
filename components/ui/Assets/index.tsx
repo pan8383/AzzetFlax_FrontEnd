@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useDeleteAssets } from '@/stores/assets/useDeleteAssets';
-import { useNavigateAssetsRegister, useNavigateAssetsDeleteConfirm } from '@/hooks/useNavigation';
+import { useNavigateAssetsRegister, useNavigateAssetsDeleteConfirm } from 'hooks/useNavigation';
 import { fetchAssets } from '@/app/_api/asset/get/route';
 
 import { SelectedAsset } from '@/types/assets';

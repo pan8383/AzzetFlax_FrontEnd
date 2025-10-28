@@ -1,12 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import axiosInstance from '@/lib/axiosInstance';
 import { AxiosError } from 'axios';
-import { checkAssetsRegisterValidation } from '@/validations/assets';
 import { AssetsRegisterParams } from '@/types/assets';
+import { useCategories } from '@/components/hooks/useCategories';
 
 export default function RegisterAssetForm() {
     const [success, setSuccess] = useState('');
@@ -27,6 +26,10 @@ export default function RegisterAssetForm() {
         },
     });
 
+    // カテゴリーをAPIで取得する
+    const { categories, categoriesfetchError, categoriesLoading } = useCategories();
+    const [selectedCategory, setSelectedCategory] = useState<string>('');
+
     // 送信処理
     const onSubmit = async (data: AssetsRegisterParams) => {
         setError('');
@@ -45,16 +48,33 @@ export default function RegisterAssetForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+            onSubmit={handleSubmit(onSubmit)}
+            onKeyDown={(e) => {
+                // フォーム全体で[Enter]押下時の送信を無効化
+                if (e.key === 'Enter') e.preventDefault();
+            }}
+        >
             <h2>資産登録</h2>
-
             <div>
                 <label htmlFor="name">表示名</label>
                 <input
                     type="text"
                     id="name"
-                    {...register('name', { required: '表示名は必須です' })}
+                    {...register('name', {
+                        required: '表示名は必須です',
+                        maxLength: {
+                            value: 50,
+                            message: '50文字以内で入力してください'
+
+                        },
+                        minLength: {
+                            value: 2,
+                            message: '2文字以上で入力してください',
+                        },
+                    })}
                 />
+                {/* バリデーションエラー */}
                 {errors.name && <p style={{ color: 'red' }}>{errors.name.message}</p>}
             </div>
 
@@ -62,13 +82,29 @@ export default function RegisterAssetForm() {
                 <label htmlFor="category">カテゴリー</label>
                 <select
                     id="category"
-                    {...register('category', { required: 'カテゴリーは必須です' })}
+                    {...register('category', {
+                        required: 'カテゴリーは必須です',
+                        maxLength: { value: 50, message: '50文字以内で入力してください' },
+                        minLength: { value: 2, message: '2文字以上で入力してください' },
+                    })}
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
                 >
-                    <option value="">選択してください</option>
-                    <option value="PC">PC</option>
-                    <option value="LANケーブル">LANケーブル</option>
+                    {categories.map((e) => (
+                        <option key={e.name} value={e.name}>
+                            {e.name}
+                        </option>
+                    ))}
                 </select>
+
+                {/* バリデーションエラー */}
                 {errors.category && <p style={{ color: 'red' }}>{errors.category.message}</p>}
+
+                {/* カテゴリ取得中 */}
+                {categoriesLoading && <p style={{ color: 'blue' }}>カテゴリを読み込み中です...</p>}
+
+                {/* カテゴリ取得エラー */}
+                {categoriesfetchError && <p style={{ color: 'red' }}>{categoriesfetchError}</p>}
             </div>
 
             <div>
@@ -76,8 +112,19 @@ export default function RegisterAssetForm() {
                 <input
                     type="text"
                     id="model"
-                    {...register('model', { required: '型番は必須です' })}
+                    {...register('model', {
+                        required: '型番は必須です',
+                        maxLength: {
+                            value: 50,
+                            message: '50文字以内で入力してください',
+                        },
+                        minLength: {
+                            value: 2,
+                            message: '2文字以上で入力してください',
+                        },
+                    })}
                 />
+                {/* バリデーションエラー */}
                 {errors.model && <p style={{ color: 'red' }}>{errors.model.message}</p>}
             </div>
 
@@ -89,13 +136,23 @@ export default function RegisterAssetForm() {
                     {...register('stock', {
                         required: '在庫数は必須です',
                         valueAsNumber: true,
-                        min: { value: 0, message: '0以上で入力してください' },
+                        max: {
+                            value: 10000,
+                            message: '10000以下で入力してください'
+                        },
+                        min: {
+                            value: 0,
+                            message: '0以上で入力してください'
+                        },
                     })}
                 />
+                {/* バリデーションエラー */}
                 {errors.stock && <p style={{ color: 'red' }}>{errors.stock.message}</p>}
             </div>
 
+            {/* 成功 */}
             {success && <p style={{ color: 'green' }}>{success}</p>}
+            {/* サーバエラー */}
             {error && <p style={{ color: 'red' }}>{error}</p>}
 
             <button type="submit">登録</button>

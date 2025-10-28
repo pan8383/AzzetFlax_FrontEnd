@@ -1,0 +1,60 @@
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--secondary);
+  table-layout: fixed;
+}
+
+.th {
+  padding: 12px;
+  position: relative;
+  text-align: left;
+  background-color: var(--background);
+  font-weight: bold;
+}
+
+.th::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 60%;
+  background-color: var(--primary);
+}
+
+/* 最後のヘッダー列は縦線を消す */
+.th:last-child::after {
+  content: none;
+}
+
+.td {
+  border-bottom: 1px solid #eee;
+  position: relative;
+  padding: 8px 16px;
+}
+
+td::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 60%;
+  background-color: var(--primary);
+}
+
+td:last-child::after {
+  content: none;
+}
+
+.clickableRow:hover {
+  background-color: var(--hover-color);
+  cursor: pointer;
+}

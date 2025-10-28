@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { fetchAssets } from '@/app/_api/asset/get/route';
-import { ApiAssets, AssetsQueryParams } from '@/types/assets';
+import { fetchAssets } from '@/app/_api/assets/get/route';
+import { ApiAssets, AssetsEntity, AssetsQueryParams } from '@/types/assets';
 import { PaginationState } from '@/types/pagination';
 
 export function useAssets() {
@@ -12,7 +12,7 @@ export function useAssets() {
         sortDirection: 'asc',
     });
 
-    const [assets, setAssets] = useState<ApiAssets[]>([]);
+    const [assets, setAssets] = useState<AssetsEntity[]>([]);
     const [pageInfo, setpageInfo] = useState<PaginationState>({
         page: 0,
         size: 20,
@@ -28,7 +28,16 @@ export function useAssets() {
         setFetchError(false);
         try {
             const data = await fetchAssets(searchParams);
-            setAssets(data.content);
+            const mappedAssets: AssetsEntity[] = data.content.map(a => ({
+                assetId: a.asset_id,
+                name: a.name,
+                category: a.category,
+                model: a.model,
+                stock: a.stock,
+                createdAt: a.created_at,
+                updatedAt: a.updated_at,
+            }));
+            setAssets(mappedAssets);
             setpageInfo({
                 page: searchParams.page,
                 size: searchParams.size,

@@ -5,7 +5,7 @@ import { useRentalAssets } from '@/stores/rental/useRentalAssets';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
-import { Asset, RentalAsset } from '@/types/assets';
+import { Asset, RentalAsset } from 'types/assets';
 import Image from 'next/image';
 import reload from '@/public/reload.svg';
 

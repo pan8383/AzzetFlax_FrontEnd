@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { NextResponse } from 'next/server';
 
-import { RentalAsset } from '@/types/assets';
+import { RentalAsset } from 'types/assets';
 
 const prisma = new PrismaClient();
 

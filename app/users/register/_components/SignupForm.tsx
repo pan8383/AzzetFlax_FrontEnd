@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import axiosInstance from '@/lib/axiosInstance';
-import { checkUsersSignupValidation } from '@/validations/users';
+import axiosInstance from 'lib/axiosInstance';
 import { AxiosError } from 'axios';
 
 export default function SignupForm() {
@@ -29,13 +28,6 @@ export default function SignupForm() {
 
 	// 送信処理
 	const onSubmit = async (data: any) => {
-		setError('');
-		const [isValid, validationMessage] = checkUsersSignupValidation(data.displayName, data.email, data.password);
-		if (!isValid) {
-			setError(validationMessage);
-			return;
-		}
-
 		try {
 			await axiosInstance.post('/users/register', data);
 			setSuccess('ユーザーを登録しました。');

@@ -1,0 +1,28 @@
+.button {
+  margin-bottom: 10px;
+  display: flex;
+  gap: 15px;
+  background-color: var(--secondary);
+  border: none;
+  border-bottom: solid 1px var(--primary);
+  cursor: pointer;
+}
+
+.text {
+  color: var(--primary);
+  font-family: var(--font-inter);
+  font-size: 46px;
+  font-weight: bold;
+  letter-spacing: 0.5rem;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon svg {
+  width: 45px;
+  height: 45px;
+}
