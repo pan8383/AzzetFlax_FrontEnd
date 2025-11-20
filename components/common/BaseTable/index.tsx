@@ -32,35 +32,40 @@ export default function BaseTable<T>({
   onRowClick,
 }: BaseTableProps<T>) {
   return (
-    <table className={styles.table}>
-      <thead>
-        <tr>
-          {columns.map(col => (
-            <th
-              key={String(col.key)}
-              className={styles.th}
-              onClick={() => col.sortable && onSort?.(col.key)}
-            >
-              {col.label}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((row, i) => (
-          <tr
-            key={i}
-            className={`${onRowClick ? styles.clickableRow : ''}`}
-            onClick={() => onRowClick?.(row)}
-          >
+    <div className={styles.layout}>
+      <table className={styles.table}>
+        <thead>
+          <tr>
             {columns.map(col => (
-              <td key={String(col.key)} className={styles.td}>
-                {String(row[col.key])}
-              </td>
+              <th
+                key={String(col.key)}
+                className={styles.th}
+                onClick={() => col.sortable && onSort?.(col.key)}
+              >
+                {col.label}
+              </th>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {data.map((row, i) => (
+            <tr
+              key={i}
+              className={`${onRowClick ? styles.clickableRow : ''}`}
+              onClick={() => onRowClick?.(row)}
+            >
+              {columns.map(col => (
+                <td key={String(col.key)} className={styles.td}>
+                  {typeof row[col.key] === 'object' && row[col.key] !== null
+                    ? (row[col.key] as React.ReactNode)
+                    : String(row[col.key] ?? '')}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
   );
 }

@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { useCategories } from 'hooks/useCategories';
-import axiosInstance from 'lib/axiosInstance';
-import { CategoriesResponseDTO } from 'types/categories';
 import { AxiosError } from 'axios';
 import ConfirmModal from '../ConfirmModal';
 import styles from './CategoriesList.module.css';
+import { useCategories } from '@/components/hooks/useCategories';
+import axiosInstance from '@/lib/axiosInstance';
+import { CategoriesResponseDTO } from '@/types/categories';
 
 export default function CategoriesList() {
     const { categories } = useCategories();

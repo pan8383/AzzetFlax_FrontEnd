@@ -1,0 +1,39 @@
+.categorySelectContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.selectBox {
+  width: 220px;
+  padding: 8px 10px;
+  font-size: 0.95rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background-color: var(--background);
+  color: var(--text-primary);
+  transition: border-color 0.2s ease;
+}
+
+.selectBox:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+.statusText {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  padding: 4px 0;
+}
+
+.statusTextError {
+  font-size: 0.9rem;
+  color: var(--danger);
+  padding: 4px 0;
+}

@@ -1,0 +1,16 @@
+.pageContainer {
+  padding: 0 10vw;
+}
+
+.filters {
+  gap: 20px;
+  display: flex;
+  align-items: end;
+  width: 100%;
+}
+
+.filtersCategorySelect {}
+
+.filtersSearchBar {
+  width: 50%;
+}

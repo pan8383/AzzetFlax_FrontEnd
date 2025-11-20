@@ -1,12 +1,22 @@
-.table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  border-radius: 12px;
+.layout {
+  border-radius: 6px;
   overflow: hidden;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  background-color: var(--secondary);
+}
+
+.table {
+  width: 100%;
   table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: var(--secondary);
+}
+
+.th,
+.td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .th {
@@ -28,7 +38,6 @@
   background-color: var(--primary);
 }
 
-/* 最後のヘッダー列は縦線を消す */
 .th:last-child::after {
   content: none;
 }

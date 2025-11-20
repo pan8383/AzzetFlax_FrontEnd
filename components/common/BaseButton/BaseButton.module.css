@@ -1,27 +1,22 @@
-/* BaseButton.module.css */
 .button {
-  min-width: 125px;
-  max-width: 190px;
-  /* width: 100%; レスポンシブ対応の場合*/
-  height: 52px;
-  padding: 0 15px;
   display: flex;
-  gap: 5px;
   align-items: center;
   justify-content: center;
-  color: var(--primary);
-  background-color: var(--secondary);
   border: none;
   border-radius: 6px;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.05);
-  font-size: 20px;
   font-weight: bold;
-  transition: transform 0.2s ease;
   cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
-.button:hover {
+.hoverable:hover {
   transform: scale(1.1);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 .icon {
@@ -30,10 +25,61 @@
   justify-content: center;
 }
 
-.icon svg {
+/* Variant */
+.white {
+  color: var(--primary);
+  background-color: var(--secondary);
+}
+
+.white .icon svg {
+  stroke: var(--primary);
+}
+
+.dark {
+  color: var(--secondary);
+  background-color: var(--primary);
+}
+
+.danger {
+  color: var(--secondary);
+  background-color: var(--danger);
+}
+
+/* Size 本体 */
+.sm {
+  gap: 3px;
+  padding: 10px;
+  font-weight: 300;
+  font-size: small;
+}
+
+.md {
+  gap: 4px;
+  padding: 12px;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.lg {
+  gap: 5px;
+  padding: 15px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+/* Size SVG */
+.sm svg {
+
+  width: 15px;
+  height: 15px;
+}
+
+.md svg {
   width: 30px;
   height: 30px;
-  position: relative;
-  top: 2px;
-  transition: transform 0.2s ease;
+}
+
+.lg svg {
+  width: 45px;
+  height: 45px;
 }

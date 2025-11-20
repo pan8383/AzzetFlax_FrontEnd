@@ -2,20 +2,32 @@ import { ReactNode } from "react";
 
 /**
  * 汎用ボタンコンポーネントのプロパティ
- * @property label ボタンに表示する文字
- * @property onClick クリック時の動作
- * @property type HTML button type
- * @property variant 色やデザインのバリエーション
- * @property size ボタンサイズ ('sm' | 'md' | 'lg')
- * @property disabled ボタンを無効化するかどうか
- * @property icon SVGなどのReact要素を渡す
  */
 export type ButtonProps = {
-  label: string;
-  onClick?: () => void;
+  /** クラス名 */
+  className?: string;
+
+  /** ボタンに表示する文字 */
+  label?: string;
+
+  /** ボタンの種類（HTML の type 属性） */
   type?: 'button' | 'submit';
-  variant?: 'primary' | 'secondary';
+
+  /** 色やデザインのバリエーション */
+  variant?: 'white' | 'dark' | 'danger';
+
+  /** ボタンサイズ */
   size?: 'sm' | 'md' | 'lg';
-  disabled?: boolean;
+
+  /** ボタン内に表示するアイコン（React 要素） */
   icon?: ReactNode;
-}
+
+  /** ボタンを無効化するかどうか */
+  disabled?: boolean;
+
+  /** ボタンをホバーさせるかどうか */
+  hoverable?: boolean;
+
+  /** クリック時のコールバック関数 */
+  onClick?: () => void;
+};

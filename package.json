@@ -13,6 +13,7 @@
     "axios": "^1.8.3",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",
+    "clsx": "^2.1.1",
     "express": "^4.21.2",
     "jose": "^6.0.12",
     "jsonwebtoken": "^9.0.2",

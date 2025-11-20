@@ -1,6 +1,4 @@
-.sub_nav_wrapper {
-  padding: 20px 0;
+.layout {
   display: flex;
-  align-items: center;
   gap: 20px;
 }

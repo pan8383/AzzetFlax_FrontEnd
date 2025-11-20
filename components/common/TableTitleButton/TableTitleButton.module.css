@@ -8,6 +8,10 @@
   cursor: pointer;
 }
 
+.button:disabled {
+  cursor: default;
+}
+
 .text {
   color: var(--primary);
   font-family: var(--font-inter);

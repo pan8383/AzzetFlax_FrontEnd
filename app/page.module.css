@@ -1,12 +1,20 @@
-.container {
-  height: 100vh;
-  padding: 0 10vw;
-  display: flex;
-  flex-direction: column;
+.layout {
+  margin: 20px 0;
 }
 
-.sub_nav_wrapper {}
+.sub_nav_wrapper,
+.base_table_container {
+  padding: 0 10vw;
+}
 
-.base_table_wrapper {
-  width: 100%;
+/* SideMenu */
+.side_menu_wrapper {
+  position: absolute;
+  top: 148px;
+  left: 20px;
+}
+
+/* AnnounceTable & MineTable */
+.base_table_container {
+  padding-top: 20px;
 }

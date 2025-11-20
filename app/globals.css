@@ -4,6 +4,8 @@
   --secondary: #FFFFFF;
   --background: #D3D3D3;
   --hover-color: #f0f0f0;
+  --danger: #f66;
+  --hidden-screen-color: rgba(0, 0, 0, 0.5);
 
   /* フォント */
   --font-text: 'Inter', sans-serif, serif;

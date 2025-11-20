@@ -2,6 +2,10 @@ import type { Metadata } from 'next';
 import { Jua, Inter } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import { CartProvider } from '@/context/RentalCartContext';
+import { AuthProvider } from '@/context/AuthContext';
+import ProtectedRoute from '@/context/ProtectedRoute';
 
 const jua = Jua({
   weight: '400',
@@ -28,10 +32,13 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={`${jua.variable} ${inter.variable}`}>
-        <Header />
-        {children}
-        {/* <AuthProvider>
-        </AuthProvider> */}
+        <AuthProvider>
+          <CartProvider>
+            <Header />
+            {children}
+            <Footer />
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

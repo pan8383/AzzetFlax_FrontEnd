@@ -1,0 +1,25 @@
+.searchWrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.searchKeyword {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--primary);
+  border-radius: 6px;
+}
+
+.searchButton {
+  padding: 8px 16px;
+  border: none;
+  background-color: var(--primary);
+  color: var(--secondary);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.searchButton:disabled {
+  opacity: 0.6;
+  cursor: default;
+}

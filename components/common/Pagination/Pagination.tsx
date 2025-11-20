@@ -1,56 +1,84 @@
-import { PaginationProps } from '@/types/pagination';
+import { PaginationProps } from '@/types/Pagination';
 import styles from '@/components/common/Pagination/Pagination.module.css';
+import ChevronIcon from '@/icons/ChevronIcon';
 
-export default function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
-    const pageNumbers: (number | 'dots')[] = [];
+export default function Pagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+  zeroBased = false,
+}: PaginationProps) {
+  const displayPage = zeroBased ? currentPage + 1 : currentPage;
 
-    pageNumbers.push(1);
+  const handleChange = (page: number) => {
+    onPageChange(zeroBased ? page - 1 : page);
+  };
 
-    if (currentPage > 4) {
-        pageNumbers.push('dots');
-    }
+  const pageNumbers: (number | 'dots')[] = [];
 
-    for (let i = currentPage - 2; i <= currentPage + 2; i++) {
-        if (i > 1 && i < totalPages) {
-            pageNumbers.push(i);
-        }
-    }
+  // 最初のページは常に表示
+  pageNumbers.push(1);
 
-    if (currentPage < totalPages - 3) {
-        pageNumbers.push('dots');
-    }
+  // 現在ページが2以上ならdotsを表示
+  if (displayPage > 3) pageNumbers.push('dots');
 
-    if (totalPages > 1) {
-        pageNumbers.push(totalPages);
-    }
+  // 現在ページの前後2ページだけ表示
+  for (let i = displayPage - 1; i <= displayPage + 1; i++) {
+    if (i > 1 && i < totalPages) pageNumbers.push(i);
+  }
 
-    return (
-        <div className={styles.pagination_container}>
-            <div className={styles.pagination}>
-                <button className={styles.prev} onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
-                    &lt;
-                </button>
+  // 現在ページから2ページ以上離れた最後のページならdotsを表示
+  if (displayPage < totalPages - 1) pageNumbers.push('dots');
 
-                {pageNumbers.map((item, index) =>
-                    item === 'dots' ? (
-                        <span key={`dots-${index}`} className={styles.dots}>
-                            ...
-                        </span>
-                    ) : (
-                        <button key={item} onClick={() => onPageChange(item)} className={item === currentPage ? styles.active : ''}>
-                            {item}
-                        </button>
-                    )
-                )}
+  // 最後のページは常に表示
+  if (totalPages > 1) pageNumbers.push(totalPages);
 
-                <button
-                    className={styles.next}
-                    onClick={() => onPageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                >
-                    &gt;
-                </button>
-            </div>
-        </div>
-    );
+  return (
+    <div className={styles.pagination_container}>
+      <div className={styles.pagination}>
+        <button
+          className={styles.prev}
+          onClick={() => handleChange(displayPage - 1)}
+          disabled={displayPage === 1}
+        >
+          <ChevronIcon
+            direction='right'
+            stroke="var(--primary)"
+            strokeWidth={2}
+          />
+          前へ
+        </button>
+
+        {pageNumbers.map((item, index) =>
+          item === 'dots' ? (
+            <span key={`dots-${index}`} className={styles.dots}>
+              ...
+            </span>
+          ) : (
+            <button
+              key={item}
+              onClick={() => handleChange(item)}
+              className={item === displayPage ? styles.active : ''}
+              disabled={item === displayPage}
+            >
+              {item}
+            </button>
+          )
+        )}
+
+        <button
+          className={styles.next}
+          onClick={() => handleChange(displayPage + 1)}
+          disabled={displayPage === totalPages}
+        >
+          次へ
+          <ChevronIcon
+            direction='left'
+            stroke="var(--primary)"
+            strokeWidth={2}
+          />
+        </button>
+      </div>
+    </div>
+  );
 }

@@ -1,13 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import axiosInstance from 'lib/axiosInstance';
 import { AxiosError } from 'axios';
+import axiosInstance from '@/lib/axiosInstance';
+import { useUserRegisterPath } from '@/components/hooks/useNavigation';
 
 export default function SignupForm() {
-	const router = useRouter();
+	const userRegisterPath = useUserRegisterPath();
 	const [success, setSuccess] = useState('');
 	const [error, setError] = useState('');
 
@@ -22,14 +22,14 @@ export default function SignupForm() {
 			displayName: '',
 			email: '',
 			password: '',
-			role: 'GUEST',
+			roleCd: 'R005',
 		},
 	});
 
 	// 送信処理
 	const onSubmit = async (data: any) => {
 		try {
-			await axiosInstance.post('/users/register', data);
+			await axiosInstance.post(userRegisterPath, data);
 			setSuccess('ユーザーを登録しました。');
 			reset();
 		} catch (err) {
@@ -78,11 +78,12 @@ export default function SignupForm() {
 
 			<div>
 				<label htmlFor="role">ロール</label>
-				<select id="role" {...register('role')}>
-					<option value="ADMIN">管理者</option>
-					<option value="EDITOR">編集者</option>
-					<option value="VIEWER">閲覧者</option>
-					<option value="GUEST">ゲスト</option>
+				<select id="role" {...register('roleCd')}>
+					<option value="R001">管理者</option>
+					<option value="R002">スタッフ</option>
+					<option value="R003">一般ユーザー</option>
+					<option value="R004">閲覧者</option>
+					<option value="R005">ゲスト</option>
 				</select>
 			</div>
 

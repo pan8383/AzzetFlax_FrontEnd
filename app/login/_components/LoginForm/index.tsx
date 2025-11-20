@@ -1,43 +1,59 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/lib/AuthContext';
-import axiosInstance from '@/lib/axiosInstance';
+import { useAuth } from '@/context/AuthContext';
 import styles from './loginForm.module.css';
 import Loader from '@/components/common/Loader';
+import { useLoginPath, useNavigateHome } from '@/components/hooks/useNavigation';
+import { useForm } from 'react-hook-form';
+import BaseButton from '@/components/common/BaseButton';
+import { PostApi } from '@/lib/postApi';
+import { AuthResponse } from '@/types/ApiResponse';
 
-type LoginFormData = {
+// ==============================
+// ペイロード
+// ==============================
+export type LoginFormValues = {
 	email: string;
 	password: string;
 };
 
 export default function LoginForm() {
-	const router = useRouter();
+	const LOGIN_PATH = useLoginPath();
+	const navigateHome = useNavigateHome();
 	const { setUser } = useAuth();
-	const [formData, setFormData] = useState<LoginFormData>({ email: '', password: '' });
 	const [error, setError] = useState('');
 	const [loading, setLoading] = useState(false);
+	const {
+		register,
+		handleSubmit,
+		reset,
+		formState: { errors },
+	} = useForm<LoginFormValues>();
 
-	const formSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		setLoading(true); // ローディング開始
+	const onSubmit = async (formData: LoginFormValues) => {
+		setLoading(true);
 		setError('');
 		try {
-			const res = await axiosInstance.post('/login', formData);
+			const res = await PostApi<AuthResponse, LoginFormValues>(LOGIN_PATH, formData);
 
 			// ブラウザに保存
-			localStorage.setItem('user', JSON.stringify(res.data.data));
+			localStorage.setItem('user', JSON.stringify(res?.data));
 
 			// Context に反映
-			setUser(res.data.data);
+			setUser(res.data);
 
-			router.push('/');
+			// フォームリセット
+			reset();
+
+			// ホーム画面に遷移
+			navigateHome();
+
 		} catch (err: any) {
 			const apiError = err.response?.data?.error;
 			setError(apiError?.message || '認証に失敗しました');
 		} finally {
-			setLoading(false); // ローディング終了
+			setLoading(false);
 		}
 	};
 
@@ -47,33 +63,42 @@ export default function LoginForm() {
 			<div className={styles.login_wrapper}>
 				<div className={styles.login_container}>
 					<h1>Azzetにログイン</h1>
-					<form className={styles.login_form} onSubmit={formSubmit}>
+
+					<form className={styles.login_form}
+						onSubmit={handleSubmit(onSubmit)}
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') e.preventDefault();
+						}}>
+
+						{/* レスポンスメッセージ */}
 						{error && <p className={styles.error_message}>{error}</p>}
 
-						<input
-							className={styles.login_input}
-							type="text"
-							id="email"
-							value={formData.email}
-							onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-							placeholder="メールアドレス"
-							required
-						/>
-						<input
-							className={styles.login_input}
-							type="password"
-							id="password"
-							value={formData.password}
-							onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-							placeholder="パスワード"
-							required
-						/>
+						<div>
+							<input className={styles.login_input}
+								type="text"
+								id="email"
+								placeholder="メールアドレス"
+								required
+								{...register("email")}
+							/>
+							{errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
+						</div>
 
+						<div>
+							<input className={styles.login_input}
+								type="password"
+								id="password"
+								placeholder="パスワード"
+								required
+								{...register("password")}
+							/>
+							{errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
+						</div>
+						{/* TODO ここどうにかする */}
 						<a href="/">パスワードを忘れた場合</a>
 
-						<button type="submit" disabled={loading}>
-							ログイン
-						</button>
+						{/* 送信ボタン */}
+						<BaseButton label="確定" type='submit' variant="dark" size="sm" disabled={loading} />
 					</form>
 				</div>
 			</div>

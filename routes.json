@@ -1,0 +1,18 @@
+{
+  "home": "/",
+  "login": "/login",
+  "logout": "/logout",
+  "signup": "/signup",
+  "user": {
+    "register":"/user/register"
+  },
+  "rental": {
+    "register": "/rental/register",
+    "update": "/rental/update",
+    "return": "/rental/return",
+    "history": "/rental/history"
+  },
+  "asset": {
+    "list": "/asset"
+  }
+}

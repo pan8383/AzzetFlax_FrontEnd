@@ -1,29 +1,40 @@
-import { ButtonProps } from '@/types/baseButton';
 import styles from './BaseButton.module.css';
+import clsx from 'clsx';
+import { ButtonProps } from '@/types/baseButton';
 
 export default function BaseButton({
+  className,
   label,
-  onClick,
   type = 'button',
-  variant = 'primary',
-  size = 'md',
-  disabled = false,
+  variant = 'white',
+  size = 'lg',
   icon,
+  disabled = false,
+  hoverable = false,
+  onClick,
 }: ButtonProps) {
-  const className = `${styles.button} ${styles[variant]} ${styles[size]}`;
+
+  // セレクタがない場合はデフォルトのセレクタを選択する
+  const buttonClass = clsx(
+    className || styles.button,
+    !className && styles[variant],
+    !className && styles[size],
+    hoverable && styles.hoverable,
+  );
 
   return (
     <button
-      className={className}
+      className={buttonClass}
       type={type}
       onClick={onClick}
-      disabled={disabled}>
-      {icon
-        &&
+      disabled={disabled}
+    >
+      {icon &&
         <span
           className={styles.icon}>
           {icon}
-        </span>}
+        </span>
+      }
       {label}
     </button>
   );
