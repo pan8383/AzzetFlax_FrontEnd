@@ -1,0 +1,45 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  gap: 6px;
+  padding: 10px;
+  color: var(--secondary);
+  font-size: medium;
+  font-weight: 500;
+  background-color: rgba(199, 188, 214, 0.399);
+  border: none;
+  border-radius: 6px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+.hoverable:hover {
+  box-shadow: inset 0 0 0 1px var(--secondary);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--secondary);
+  stroke-width: 2px;
+}
+
+.active {
+  background: var(--color-primary);
+  color: #fff;
+  border: solid 1px #fff;
+}

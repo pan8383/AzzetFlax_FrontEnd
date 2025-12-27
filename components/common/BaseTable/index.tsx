@@ -1,64 +1,126 @@
-'use client';
+'use client'
 
-import styles from './BaseTable.module.css';
+import styles from './BaseTable.module.css'
+import React from 'react'
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  PaginationState,
+  useReactTable,
+} from '@tanstack/react-table'
 
-/**
- * @property key ヘッダー
- * @property label 値
- * @property sortable ソート可能なテーブルの場合-> true
- */
-export type Column<T> = {
-  key: keyof T;
-  label: string;
-  sortable?: boolean;
-};
+export type SortDirection = 'asc' | 'desc'
+export type ColumnSort = {
+  id: string
+  desc: boolean
+}
 
-/**
- * @property currentPage 現在のページ番号（1始まり）
- * @property totalPages 総ページ数
- * @property onPageChange ページ変更時に呼ばれるコールバック
- */
-export type BaseTableProps<T> = {
-  columns: Column<T>[];
+export type SortingState = ColumnSort[]
+
+type BaseTableProps<T, K extends keyof T = keyof T> = {
+  columns: ColumnDef<T, any>[];
   data: T[];
-  onSort?: (key: keyof T) => void;
+  onSort?: (field: Extract<K, string>, direction: 'asc' | 'desc') => void;
   onRowClick?: (row: T) => void;
-};
+  totalPages?: number;
+}
 
-export default function BaseTable<T>({
+export function BaseTable<T>({
   columns,
   data,
   onSort,
   onRowClick,
+  totalPages,
 }: BaseTableProps<T>) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [pagination, setPagination] = React.useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10
+  });
+  const table = useReactTable({
+    columns,
+    data,
+    state: {
+      sorting,
+      pagination,
+    },
+    columnResizeMode: 'onChange',
+    enableSorting: true,
+    manualSorting: true,
+    getCoreRowModel: getCoreRowModel(),
+    onPaginationChange: setPagination,
+    pageCount: totalPages,
+    manualPagination: true,
+    onSortingChange: (updater) => {
+      let newSorting: SortingState
+
+      if (typeof updater === 'function') {
+        newSorting = updater(sorting)
+      } else {
+        newSorting = updater
+      }
+
+      setSorting(newSorting)
+
+      if (onSort && newSorting.length > 0) {
+        const firstSort = newSorting[0]
+        const column = table.getAllColumns().find(c => c.id === firstSort.id)
+
+        if (!column?.getCanSort()) return
+
+        // firstSort.id が string の場合のみ処理
+        if (typeof firstSort.id === 'string' && onSort) {
+          onSort(firstSort.id as Extract<keyof T, string>, firstSort.desc ? 'desc' : 'asc')
+        }
+      }
+    },
+  })
+
   return (
-    <div className={styles.layout}>
+    <div className={styles.tableWrapper}>
       <table className={styles.table}>
         <thead>
-          <tr>
-            {columns.map(col => (
-              <th
-                key={String(col.key)}
-                className={styles.th}
-                onClick={() => col.sortable && onSort?.(col.key)}
-              >
-                {col.label}
-              </th>
-            ))}
-          </tr>
+          {table.getHeaderGroups().map(headerGroup => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map(header => (
+                <th key={header.id} style={{ width: header.getSize() }}>
+                  <div
+                    className={styles.sortHeader}
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(header.column.columnDef.header, header.getContext())}
+                    <span className={styles.sortArrow}>
+                      {{
+                        asc: '↑',
+                        desc: '↓',
+                      }[header.column.getIsSorted() as string] ?? ''}
+                    </span>
+                  </div>
+
+                  <div
+                    className={styles.resizeHandle}
+                    onMouseDown={header.getResizeHandler()}
+                    onClick={e => e.stopPropagation()}
+                  />
+                </th>
+              ))}
+            </tr>
+          ))}
         </thead>
+
         <tbody>
-          {data.map((row, i) => (
+          {table.getRowModel().rows.map(row => (
             <tr
-              key={i}
-              className={`${onRowClick ? styles.clickableRow : ''}`}
-              onClick={() => onRowClick?.(row)}
+              key={row.id}
+              onClick={() => onRowClick?.(row.original)}
+              style={{ cursor: onRowClick ? 'pointer' : 'default' }}
             >
-              {columns.map(col => (
-                <td key={String(col.key)} className={styles.td}>
-                  {typeof row[col.key] === 'object' && row[col.key] !== null
-                    ? (row[col.key] as React.ReactNode)
-                    : String(row[col.key] ?? '')}
+              {row.getVisibleCells().map(cell => (
+                <td key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
             </tr>
@@ -66,6 +128,5 @@ export default function BaseTable<T>({
         </tbody>
       </table>
     </div>
-
-  );
+  )
 }

@@ -4,25 +4,30 @@ import styles from './NavigationMenus.module.css';
 import BellDotIcon from "@/icons/BellDotIcon";
 import ModalWindow from '@/components/common/ModalWindow';
 import CircleUserRoundIcon from '@/icons/CircleUserRoundIcon';
-import { useLogoutPath, useNavigateHome } from '@/components/hooks/useNavigation';
+import { useNavigateAdmin, useNavigateHome } from '@/components/hooks/useNavigation';
 import LogOutIcon from '@/icons/LogOutIcon';
 import BaseList from '@/components/common/BaseList';
-import { postLogoutRequest } from '@/app/_api/logout/route';
+import CrownIcon from '@/icons/CrownIcon';
+import UserIcon from '@/icons/UserIcon';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function NavigationButtons() {
+  const { user, logout } = useAuth();
+
   const navigateHome = useNavigateHome();
-  const logoutPath = useLogoutPath();
+  const navigateAdmin = useNavigateAdmin();
 
   const handleLogout = async () => {
     try {
-      await postLogoutRequest(logoutPath); // サーバにリクエスト
+      // ログアウト処理をリクエスト
+      logout();
 
       // ログアウト後にホームにリダイレクト
       navigateHome();
 
       // 成功したら強制リロード
       window.location.reload();
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
     }
   }
@@ -41,7 +46,7 @@ export default function NavigationButtons() {
             </button>
           }
         >
-          <p>通知内容をここに表示。</p>
+          <p>新しい通知はありません</p>
         </ModalWindow>
       )
     },
@@ -58,11 +63,26 @@ export default function NavigationButtons() {
             </button>
           }
         >
-          <BaseList
-            label='ログアウト'
-            icon={<LogOutIcon />}
-            onClick={() => handleLogout()}
-          />
+          <div className={styles.listItems}>
+            <BaseList
+              label='マイページ'
+              icon={<UserIcon />}
+              onClick={() => handleLogout()}
+            />
+            {user?.role === 'ADMIN' && (
+              <BaseList
+                label='管理者ページ'
+                icon={<CrownIcon />}
+                onClick={() => navigateAdmin()}
+              />
+
+            )}
+            <BaseList
+              label='ログアウト'
+              icon={<LogOutIcon />}
+              onClick={() => handleLogout()}
+            />
+          </div>
         </ModalWindow>
       )
     },

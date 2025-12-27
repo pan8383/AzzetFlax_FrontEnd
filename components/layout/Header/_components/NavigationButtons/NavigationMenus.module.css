@@ -31,3 +31,9 @@
 .notify_button:hover .icon_wrapper svg {
   transform: scale(1.2);
 }
+
+.listItems {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

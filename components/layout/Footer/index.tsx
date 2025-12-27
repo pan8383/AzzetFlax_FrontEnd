@@ -2,17 +2,20 @@
 
 import styles from './Footer.module.css';
 import Link from 'next/link';
+import GithubIcon from '@/icons/GithubIcon';
 
 export default function Footer() {
   return (
-    <header className={styles.site_header}>
-      <div className={styles.container}>
-        <h1 className={styles.title} >
-          <Link href="/test">
-            Test
-          </Link>
-        </h1>
-      </div>
-    </header>
+    <footer className={styles.siteFooter}>
+      <Link
+        className={styles.githubLinkBtn}
+        href="https://github.com/pan8383"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <GithubIcon />
+        @pan8383
+      </Link>
+    </footer>
   );
 }

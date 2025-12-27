@@ -1,0 +1,23 @@
+.cartAddBtn {
+  width: 100%;
+  height: 30px;
+  border: none;
+  border-radius: 6px;
+  color: var(--secondary);
+  background-color: var(--primary);
+  cursor: pointer;
+}
+
+.cartAddBtn:active {
+  scale: 0.9;
+}
+
+.cartAddBtn:disabled {
+  color: rgb(144, 144, 144);
+  background-color: rgb(210, 210, 210);
+  cursor: default;
+}
+
+.cartAddBtn:disabled:active {
+  scale: 1;
+}

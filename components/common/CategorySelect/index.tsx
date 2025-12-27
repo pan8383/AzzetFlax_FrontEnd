@@ -1,40 +1,38 @@
 'use client';
 
 import styles from './CategorySelect.module.css';
-import { useCategories } from '@/components/hooks/useCategories';
+import { useCategory } from '@/components/hooks/useCategory';
 
 type CategorySelectProps = {
   value: string;
-  onCategoryChange: (category_name: string) => void;
+  onCategoryChange: (categoryCode: string) => void;
 };
 
 export default function CategorySelect({ value, onCategoryChange }: CategorySelectProps) {
-  const { categories, categoriesLoading, categoriesFetchError } = useCategories();
+  const { category, categoryLoading, categoryFetchError } = useCategory();
 
   // ローディング中表示
-  if (categoriesLoading) {
+  if (categoryLoading) {
     return <div className={styles.statusText}>カテゴリを読み込み中...</div>;
   }
 
   // 取得エラー表示
-  if (categoriesFetchError) {
+  if (categoryFetchError) {
     return (
       <div className={styles.statusTextError}>
-        カテゴリの取得に失敗しました：{categoriesFetchError}
+        カテゴリの取得に失敗しました：{categoryFetchError}
       </div>
     );
   }
 
   // データが空の場合
-  if (!categories || categories.length === 0) {
+  if (!category || category.length === 0) {
     return <div className={styles.statusText}>データがありません。</div>;
   }
 
   return (
     <div className={styles.categorySelectContainer}>
-      <label htmlFor="category" className={styles.label}>
-        カテゴリ
-      </label>
+      <label htmlFor="category" className={styles.label}>カテゴリ</label>
       <select
         id="category"
         name="category"
@@ -42,9 +40,9 @@ export default function CategorySelect({ value, onCategoryChange }: CategorySele
         value={value || ''}
         onChange={e => onCategoryChange(e.target.value)}
       >
-        <option value="">選択してください</option>
-        {categories.map(category => (
-          <option key={category.name} value={category.name}>
+        <option value="">すべて</option>
+        {category.map(category => (
+          <option key={category.categoryCode} value={category.categoryCode}>
             {category.name}
           </option>
         ))}

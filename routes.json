@@ -1,18 +1,50 @@
 {
-  "home": "/",
-  "login": "/login",
-  "logout": "/logout",
-  "signup": "/signup",
-  "user": {
-    "register":"/user/register"
+  "api": {
+    "auth": {
+      "login": "/auth/login",
+      "logout": "/auth/logout",
+      "signup": "/auth/signup",
+      "refresh": "/auth/refresh"
+    },
+    "users": {
+      "list": "/users"
+    },
+    "assets": {
+      "list": "/assets",
+      "create": "/assets",
+      "unitsList": "/assets/{assetId}/units",
+      "unitsCreate": "/assets/{assetId}/units",
+      "rentals": {
+        "list": "/assets/rentals",
+        "detail": "/assets/rentals/{rentalId}",
+        "create": "/assets/rentals",
+        "return": "/assets/rentals"
+      }
+    },
+    "category": {
+      "list": "/category",
+      "create": "/category",
+      "delete": "/category"
+    }
   },
-  "rental": {
-    "register": "/rental/register",
-    "update": "/rental/update",
-    "return": "/rental/return",
-    "history": "/rental/history"
-  },
-  "asset": {
-    "list": "/asset"
+  "route": {
+    "home": "/",
+    "auth": {
+      "forgotPassword": "/forgot-password",
+      "login": "/login"
+    },
+    "admin": {
+      "home": "/admin",
+      "users": "/admin/users",
+      "assets": "/admin/assets"
+    },
+    "assets": {
+      "list": "/assets"
+    },
+    "rentals": {
+      "list": "/rentals",
+      "create": "/rentals",
+      "return": "/rentals/return"
+    }
   }
 }

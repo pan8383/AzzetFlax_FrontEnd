@@ -1,0 +1,8 @@
+.pageLayout {}
+
+.tableOptions {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 30px;
+}

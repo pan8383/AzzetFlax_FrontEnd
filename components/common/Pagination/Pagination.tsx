@@ -1,6 +1,19 @@
-import { PaginationProps } from '@/types/Pagination';
 import styles from '@/components/common/Pagination/Pagination.module.css';
 import ChevronIcon from '@/icons/ChevronIcon';
+
+export type PaginationProps = {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  zeroBased?: boolean;
+};
+
+export type PaginationState = {
+  page: number;
+  size: number;
+  totalPages: number;
+  totalElements: number;
+};
 
 export default function Pagination({
   currentPage,

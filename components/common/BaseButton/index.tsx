@@ -1,6 +1,19 @@
 import styles from './BaseButton.module.css';
+import { ReactNode } from 'react';
 import clsx from 'clsx';
-import { ButtonProps } from '@/types/baseButton';
+
+type ButtonProps = {
+  className?: string;
+  label?: string;
+  type?: 'button' | 'submit';
+  variant?: 'white' | 'dark' | 'danger';
+  size?: 'sm' | 'md' | 'lg';
+  icon?: ReactNode;
+  disabled?: boolean;
+  hoverable?: boolean;
+  isActive?: boolean;
+  onClick?: () => void;
+};
 
 export default function BaseButton({
   className,
@@ -11,6 +24,7 @@ export default function BaseButton({
   icon,
   disabled = false,
   hoverable = false,
+  isActive = false,
   onClick,
 }: ButtonProps) {
 
@@ -20,6 +34,7 @@ export default function BaseButton({
     !className && styles[variant],
     !className && styles[size],
     hoverable && styles.hoverable,
+    isActive && styles.active,
   );
 
   return (

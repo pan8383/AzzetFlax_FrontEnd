@@ -1,0 +1,41 @@
+.hiddenScreen {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: var(--hidden-screen-color);
+  z-index: 100;
+}
+
+.cartButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+
+.menuButtonWrapper {
+  position: relative;
+  display: inline-block;
+  justify-content: flex-end;
+}
+
+.totalQuantityCounter {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 9999px;
+}

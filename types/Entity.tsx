@@ -1,9 +1,5 @@
 
 
-
-
-
-
 export type AssetView = {
   assetId: string;
   name: string;
@@ -22,7 +18,7 @@ export type RentalEntity = {
   userId: string;
   due: Date;
   returnAt: Date;
-  statusCode: string;
+  status: string;
   remarks: string;
   isDeleted: boolean;
   createdAt: Date;

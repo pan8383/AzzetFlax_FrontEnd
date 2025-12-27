@@ -1,0 +1,12 @@
+.pageLayout {}
+
+.navigation {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.navigationLink {
+  font-size: large;
+  border-bottom: solid 1px var(--primary);
+}

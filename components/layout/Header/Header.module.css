@@ -1,18 +1,11 @@
 /* Header */
 .site_header {
-  height: 128px;
-  padding: 0 10vw;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  padding: 15px 10vw;
   background: linear-gradient(90deg, rgba(255, 0, 140, 0.2) 0%, rgba(0, 21, 255, 0.2) 100%),
     #828282;
-}
-
-.container {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .title {
@@ -23,4 +16,22 @@
   font-weight: 500;
   font-family: var(--font-heading);
   cursor: pointer;
+}
+
+.title,
+.sub_nav_wrapper {
+  flex: 1 1 45%;
+}
+
+.main_nav_wrapper {
+  flex: 1 1 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.sub_nav_wrapper {
+  display: flex;
+  justify-content: flex-end;
 }

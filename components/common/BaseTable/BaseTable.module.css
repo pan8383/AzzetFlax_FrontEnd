@@ -1,69 +1,78 @@
-.layout {
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
 }
 
 .table {
   width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
   table-layout: fixed;
-  border-collapse: separate;
-  border-spacing: 0;
-  background-color: var(--secondary);
 }
 
-.th,
-.td {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.th {
-  padding: 12px;
-  position: relative;
-  text-align: left;
-  background-color: var(--background);
+.table thead th {
+  background-color: #f4f4f4;
   font-weight: bold;
-}
-
-.th::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  width: 1px;
-  height: 60%;
-  background-color: var(--primary);
-}
-
-.th:last-child::after {
-  content: none;
-}
-
-.td {
-  border-bottom: 1px solid #eee;
+  text-align: center;
   position: relative;
-  padding: 8px 16px;
-}
-
-td::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  width: 1px;
-  height: 60%;
-  background-color: var(--primary);
-}
-
-td:last-child::after {
-  content: none;
-}
-
-.clickableRow:hover {
-  background-color: var(--hover-color);
+  padding: 8px;
+  border-bottom: 2px solid #ccc;
+  white-space: nowrap;
   cursor: pointer;
+}
+
+.table tbody td {
+  padding: 8px;
+  border-bottom: 1px solid #e5e5e5;
+
+  white-space: nowrap;
+  /* 改行をさせない */
+  overflow: hidden;
+  /* はみ出した部分を非表示にする */
+  text-overflow: ellipsis;
+  /* はみ出した部分を「…」にする */
+  max-width: 150px;
+  /* 最大幅 */
+  min-width: 50px;
+  /* 最小幅 */
+}
+
+.table tbody tr:hover {
+  background-color: #fafafa;
+}
+
+.resizeHandle {
+  background-color: rgb(131, 125, 125);
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  cursor: col-resize;
+  user-select: none;
+  z-index: 2;
+}
+
+.resizeHandle:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.button {
+  padding: 6px 12px;
+  background: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: #0056b3;
+}
+
+.sortHeader {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
 }

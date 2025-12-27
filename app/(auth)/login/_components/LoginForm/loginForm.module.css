@@ -1,0 +1,58 @@
+.form {
+  width: 500px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.form h2 {
+  padding-bottom: 10px;
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.inputGroup {
+  width: 100%;
+  height: 2.5rem;
+  padding-left: 10px;
+  margin-top: 15px;
+  border: 1px solid rgb(223, 223, 223);
+  border-radius: 3px;
+  font-size: medium;
+}
+
+.forgotPasswordLink {
+  display: inline-block;
+  margin: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.forgotPasswordLink:hover {
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.submitBtn {
+  width: 100%;
+  height: 2.5rem;
+  margin: 10px 0;
+  border: none;
+  border-radius: 20px;
+  background-color: #333;
+  color: var(--secondary);
+  font-size: medium;
+  cursor: pointer;
+}
+
+.error_message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 2.5rem;
+  margin-top: 10px;
+  border-radius: 3px;
+  color: red;
+  background-color: rgba(255, 209, 209, 0.712);
+}
