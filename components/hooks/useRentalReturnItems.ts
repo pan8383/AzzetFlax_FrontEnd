@@ -1,9 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { useRentalReturn } from '@/contexts/RentalReturnContext';
+import { ReturnItem, useRentalReturn } from '@/contexts/RentalReturnContext';
 import { postApi } from '@/lib/postApi';
-import { ReturnItem } from '@/types/context/RentalReturnContext';
 import { RentalReturnResponse } from '@/types/api/api';
 import { getRentalsReturnApiPath } from './useNavigation';
 

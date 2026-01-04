@@ -1,7 +1,6 @@
 'use client';
 
 import { createContext, useContext, useState, ReactNode, useCallback } from 'react';
-import { postApi } from '@/lib/postApi';
 import { RentalReturnResponse } from '@/types/api/api';
 import { patchApi } from '@/lib/patchApi';
 import { getRentalsReturnApiPath } from '@/components/hooks/useNavigation';
