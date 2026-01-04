@@ -5,8 +5,6 @@ import { useState } from "react";
 import ShoppingCartIcon from "@/icons/ShoppingCartIcon";
 import CartPanel from "../CartPanel";
 import MenuBaseButton from '@/components/common/MenuBaseButton';
-import Grid2x2Icon from '@/icons/Grid2x2Icon';
-import { useNavigateAssets, useNavigateRentalList } from '@/components/hooks/useNavigation';
 
 type CartToggleButtonProps = {
   count: number;
@@ -22,8 +20,6 @@ export default function CartToggleButton({ count }: CartToggleButtonProps) {
       <MenuBaseButton
         label={`${count > 0 ? `[ ${count} ]` : ''} `}
         icon={<ShoppingCartIcon />}
-        variant="white"
-        hoverable
         onClick={handleToggle}
       />
     )}
