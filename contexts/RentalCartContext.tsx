@@ -1,7 +1,7 @@
 'use client';
 import { createContext, useContext, useState, ReactNode, useCallback, useEffect } from 'react';
 import { CartContextType, CartItem } from '@/types/context/RentalCartContextTypes';
-import { AssetEntity } from '@/types/api/entities';
+import { Asset } from '@/types/api/api';
 
 // Context本体を定義（初期値はundefined）
 const RentalCartContext = createContext<CartContextType | undefined>(undefined);
@@ -19,7 +19,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   /**
    * カートに商品を追加
    */
-  const addToCart = useCallback((asset: AssetEntity) => {
+  const addToCart = useCallback((asset: Asset) => {
     setCartItems(prev => {
       const existing = prev.find(item => item.assetId === asset.assetId);
       const availableStock = asset.availableStock;
