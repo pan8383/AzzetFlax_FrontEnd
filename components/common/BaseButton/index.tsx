@@ -32,11 +32,12 @@ export default function BaseButton({
 
   // セレクタがない場合はデフォルトのセレクタを選択する
   const buttonClass = clsx(
-    className || styles.button,
+    styles.button,
     !className && styles[variant],
     !className && styles[size],
     hoverable && styles.hoverable,
     isActive && styles.active,
+    className,
   );
 
   return (

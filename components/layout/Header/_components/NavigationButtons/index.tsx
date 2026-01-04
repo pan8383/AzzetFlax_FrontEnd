@@ -7,7 +7,6 @@ import CircleUserRoundIcon from '@/icons/CircleUserRoundIcon';
 import LogOutIcon from '@/icons/LogOutIcon';
 import BaseList from '@/components/common/BaseList';
 import CrownIcon from '@/icons/CrownIcon';
-import UserIcon from '@/icons/UserIcon';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigateAdminHome, useNavigateHome } from '@/components/hooks/useNavigation';
 

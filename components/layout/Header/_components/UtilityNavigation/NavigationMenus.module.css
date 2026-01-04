@@ -31,3 +31,14 @@
 .notify_button:hover .icon_wrapper svg {
   transform: scale(1.2);
 }
+
+.loginButton {
+  padding: 10px 20px;
+  font-weight: bold;
+  color: var(--primary);
+  background-color: var(--secondary);
+  border: none;
+  border-radius: 6px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
