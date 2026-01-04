@@ -7,9 +7,14 @@ import { useUsers } from '@/components/hooks/useUsers';
 import Loader from '@/components/common/Loader';
 import TableTitleButton from '@/components/common/TableTitleButton';
 import CrownIcon from '@/icons/CrownIcon';
+import { useBreadcrumbs } from '@/components/hooks/useBreadcrumbs';
+import { ADMIN_USER_LIST } from '@/components/ui/Breadcrumbs/breadcrumbs';
 
 export default function Page() {
 	const { users, pageInfo, loading, fetchError, updateQueryParams } = useUsers(50);
+
+	// パンくずリスト
+	useBreadcrumbs(ADMIN_USER_LIST);
 
 	const refreshUsers = () => {
 		updateQueryParams(prev => ({ ...prev }));

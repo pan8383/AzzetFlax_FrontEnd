@@ -47,6 +47,12 @@ export const ADMIN_PAGE: BreadcrumbItem[] = [
   { label: '管理者ページ' },
 ];
 
+export const ADMIN_USER_LIST: BreadcrumbItem[] = [
+  TOP,
+  ADMIN_TOP,
+  { label: 'ユーザー管理' },
+];
+
 export const ADMIN_ASSET_LIST: BreadcrumbItem[] = [
   TOP,
   ADMIN_TOP,
