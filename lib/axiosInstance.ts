@@ -6,7 +6,8 @@ const LOGIN_PATH = ROUTES.route.auth.login;
 const REFRESH_API_PATH = ROUTES.api.auth.refresh;
 
 const axiosInstance = axios.create({
-  baseURL: 'http://azzet-flux.kyo-miyaji.site/api',
+  //baseURL: 'http://localhost:8080/api',
+  baseURL: 'https://azzet-flux.kyo-miyaji.site/api',
   withCredentials: true,
   headers: { 'Content-Type': 'application/json' },
 });
