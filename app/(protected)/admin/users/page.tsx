@@ -5,6 +5,8 @@ import SignupForm from './_components/SignupForm/SignupForm';
 import UserTableView from './_components/UserTableView';
 import { useUsers } from '@/components/hooks/useUsers';
 import Loader from '@/components/common/Loader';
+import TableTitleButton from '@/components/common/TableTitleButton';
+import CrownIcon from '@/icons/CrownIcon';
 
 export default function Page() {
 	const { users, pageInfo, loading, fetchError, updateQueryParams } = useUsers(50);
@@ -15,6 +17,12 @@ export default function Page() {
 
 	return (
 		<div className={styles.pageLayout}>
+			{/* タイトル */}
+			<TableTitleButton
+				label="ユーザー管理"
+				icon={<CrownIcon stroke="var(--primary)" />}
+				disabled
+			/>
 
 			{/* 新規ユーザー登録 */}
 			<div className={styles.form}>
