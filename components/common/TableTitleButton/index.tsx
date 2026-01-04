@@ -1,5 +1,14 @@
-import { TableTitleButtonProps } from "@/types/TableTitleButtonProps";
 import styles from './TableTitleButton.module.css';
+import { ReactNode } from "react";
+
+type TableTitleButtonProps = {
+  label: string;
+  onClick?: () => void;
+  variant?: 'primary' | 'secondary';
+  size?: 'sm' | 'md' | 'lg';
+  disabled?: boolean;
+  icon?: ReactNode;
+}
 
 export default function TableTitleButton({
   label,
