@@ -21,6 +21,9 @@ axiosInstance.interceptors.response.use(
     const status = error.response?.status;
     const originalRequest = error.config;
 
+    // ログインページではリダイレクトしない
+    const isLoginPage = typeof window !== 'undefined' && window.location.pathname === LOGIN_PATH;
+
     if (
       status === 401 &&
       !originalRequest._retry &&
@@ -44,9 +47,12 @@ axiosInstance.interceptors.response.use(
 
         return axiosInstance(originalRequest);
       } catch {
-        if (typeof window !== 'undefined') {
+
+        // ログインページ以外ならリダイレクト
+        if (!isLoginPage) {
           window.location.href = LOGIN_PATH;
         }
+
         return Promise.reject(error);
       } finally {
         isRefreshing = false;
