@@ -1,7 +1,22 @@
 'use client';
-import { createContext, useContext, useState, ReactNode, useCallback, useEffect } from 'react';
-import { CartContextType, CartItem } from '@/types/context/RentalCartContextTypes';
+
+import { createContext, useContext, useState, ReactNode, useCallback } from 'react';
 import { Asset } from '@/types/api/api';
+
+// カートに入れるアイテムの型（数量情報を追加）
+export type CartItem = Asset & { quantity: number };
+
+// Contextが提供する機能の型定義
+export type CartContextType = {
+  cartItems: CartItem[];
+  addToCart: (asset: Asset) => void;
+  removeFromCart: (assetId: string) => void;
+  increaseQuantity: (assetId: string) => void;
+  decreaseQuantity: (assetId: string) => void;
+  clearCart: () => void;
+  totalTypes: number;  // カート内の種類の数
+  totalQuantity: number; // 全アイテム数量の合計
+};
 
 // Context本体を定義（初期値はundefined）
 const RentalCartContext = createContext<CartContextType | undefined>(undefined);

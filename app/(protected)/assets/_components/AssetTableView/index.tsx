@@ -4,8 +4,8 @@ import styles from './AssetTableView.module.css';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { BaseTable } from '@/components/common/BaseTable';
 import { AssetsQueryParams } from '@/components/hooks/useAssets';
-import { CartItem } from '@/types/context/RentalCartContextTypes';
 import { Asset } from '@/types/api/api';
+import { CartItem } from '@/contexts/RentalCartContext';
 
 type Props = {
   assets: Asset[];
