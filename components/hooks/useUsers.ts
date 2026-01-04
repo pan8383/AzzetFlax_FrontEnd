@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { fetchApi } from '@/lib/fetchApi';
+import { getApi } from '@/lib/getApi';
 import { AssetResponse, User, UsersResponse } from '@/types/api/api';
 import { PaginationState } from '../common/Pagination/Pagination';
 import { error } from 'console';
-import { useUsersApiPath } from './useNavigation';
+import { getUsersApiPath } from './useNavigation';
 
 /**
  * APIクエリパラメータ（検索）
@@ -17,7 +17,7 @@ type UsersQueryParams = {
 }
 
 export function useUsers(rowSize: number) {
-  const USERS_API_PATH = useUsersApiPath();
+  const USERS_API_PATH = getUsersApiPath();
   // ユーザー状態管理
   const [users, setUsers] = useState<User[] | []>([]);
 
@@ -59,7 +59,7 @@ export function useUsers(rowSize: number) {
       setFetchError(false);
 
       try {
-        const res = await fetchApi<UsersResponse>(USERS_API_PATH, {
+        const res = await getApi<UsersResponse>(USERS_API_PATH, {
           params: {
             ...(searchParams.search ? { search: searchParams.search } : {}),
             page: searchParams.page,

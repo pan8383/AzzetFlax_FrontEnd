@@ -6,7 +6,7 @@ import ShoppingCartIcon from "@/icons/ShoppingCartIcon";
 import CartPanel from "../CartPanel";
 import MenuBaseButton from '@/components/common/MenuBaseButton';
 import Grid2x2Icon from '@/icons/Grid2x2Icon';
-import { useNavigateAssets, useNavigateRentalHistory } from '@/components/hooks/useNavigation';
+import { useNavigateAssets, useNavigateRentalList } from '@/components/hooks/useNavigation';
 
 type CartToggleButtonProps = {
   count: number;

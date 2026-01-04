@@ -4,12 +4,17 @@ import styles from './page.module.css';
 import TableTitleButton from '@/components/common/TableTitleButton';
 import Grid2x2Icon from '@/icons/Grid2x2Icon';
 import Pagination from '@/components/common/Pagination/Pagination';
-import { useRentalHistory } from '@/components/hooks/useRentalHistory';
-import RentalHistoryStatusFilter from './_components/RentalHistoryStatusFilter';
-import RentalHistoryTableView from './_components/RentalHistoryTableView';
+import { useRentalList } from '@/components/hooks/useRentalList';
+import { useBreadcrumbs } from '@/components/hooks/useBreadcrumbs';
+import RentalsTableView from './_components/RentalsTableView';
+import RentalListStatusFilter from './_components/RentalListStatusFilter';
+import { RENTAL_LIST } from '@/components/ui/Breadcrumbs/breadcrumbs';
 
 export default function Page() {
-  const { history, pageInfo, loading, fetchError, updateQueryParams } = useRentalHistory(50);
+  const { rentals, pageInfo, loading, fetchError, updateQueryParams, searchParams } = useRentalList(20);
+
+  // パンくずリスト
+  useBreadcrumbs(RENTAL_LIST);
 
   return (
     <div className={styles.pageLayout}>
@@ -21,7 +26,7 @@ export default function Page() {
       />
       <div className={styles.tableOptions}>
         {/* ステータスフィルター */}
-        <RentalHistoryStatusFilter
+        <RentalListStatusFilter
           updateQueryParams={updateQueryParams}
         />
       </div>
@@ -29,19 +34,23 @@ export default function Page() {
       {/* カウンター */}
       <p>{pageInfo.totalElements} 件</p>
 
-      {/* テーブル */}
-      <RentalHistoryTableView
-        history={history}
-        totalPages={pageInfo.totalPages}
-        updateQueryParams={updateQueryParams}
-      />
+      <div className={styles.listWrapper}>
+        {/* テーブル */}
+        <RentalsTableView
+          rentals={rentals}
+          updateQueryParams={updateQueryParams}
+          sortField={searchParams.sortField}
+          sortDirection={searchParams.sortDirection}
+          totalPages={pageInfo.totalPages}
+        />
 
-      {/* ページネーション */}
-      <Pagination
-        currentPage={pageInfo.page + 1}
-        totalPages={pageInfo.totalPages}
-        onPageChange={(page) => updateQueryParams((prev) => ({ ...prev, page: page - 1 }))}
-      />
+        {/* ページネーション */}
+        <Pagination
+          currentPage={pageInfo.page + 1}
+          totalPages={pageInfo.totalPages}
+          onPageChange={(page) => updateQueryParams((prev) => ({ ...prev, page: page - 1 }))}
+        />
+      </div>
     </div>
   );
 }

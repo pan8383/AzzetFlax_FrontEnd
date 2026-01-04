@@ -1,17 +1,10 @@
-.categorySelectContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  cursor: pointer;
-}
-
-.label {
+.inputLabel {
   font-size: 0.9rem;
   color: var(--text-secondary);
 }
 
 .selectBox {
-  width: 220px;
+  width: 100%;
   padding: 8px 10px;
   font-size: 0.95rem;
   border: 1px solid var(--border);
@@ -24,16 +17,4 @@
 .selectBox:focus {
   border-color: var(--primary);
   outline: none;
-}
-
-.statusText {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  padding: 4px 0;
-}
-
-.statusTextError {
-  font-size: 0.9rem;
-  color: var(--danger);
-  padding: 4px 0;
 }

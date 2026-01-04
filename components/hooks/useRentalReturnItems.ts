@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 import { useRentalReturn } from '@/contexts/RentalReturnContext';
-import { useRentalReturnPath } from './useNavigation';
 import { postApi } from '@/lib/postApi';
 import { ReturnItem } from '@/types/context/RentalReturnContext';
 import { RentalReturnResponse } from '@/types/api/api';
+import { getRentalsReturnApiPath } from './useNavigation';
 
 export function useRentalReturnItems() {
   const { returnItems, clearItems } = useRentalReturn();
-  const RENTAL_RETURN_PATH = useRentalReturnPath();
+  const RENTALS_RETURN_API_PATH = getRentalsReturnApiPath();
 
   // 状態名をわかりやすく変更
   const [isReturning, setIsReturning] = useState(false);
@@ -24,7 +24,7 @@ export function useRentalReturnItems() {
     setReturnSuccess(false);
 
     try {
-      const res = await postApi<RentalReturnResponse, ReturnItem[]>(RENTAL_RETURN_PATH, returnItems);
+      const res = await postApi<RentalReturnResponse, ReturnItem[]>(RENTALS_RETURN_API_PATH, returnItems);
       clearItems(); // 成功なら Context リセット
       setReturnSuccess(true);
       return res;

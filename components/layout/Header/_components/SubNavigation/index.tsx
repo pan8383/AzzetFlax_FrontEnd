@@ -1,29 +1,24 @@
+'use client'
+
 import styles from './SubNavigation.module.css';
-import ArrowIcon from "@/icons/ArrowIcon";
 import Grid2x2Icon from "@/icons/Grid2x2Icon";
-import { useNavigateAssets, useNavigateRentalHistory, useNavigateRentalReturn } from "@/components/hooks/useNavigation";
-import CartToggleButton from "@/components/ui/CartToggleButton";
-import { useCart } from "@/contexts/RentalCartContext";
+import { getAssetsPath, getRentalListPath, useNavigateAssets, useNavigateRentalList, useNavigateRentalReturn } from "@/components/hooks/useNavigation";
 import MenuBaseButton from '@/components/common/MenuBaseButton';
 import HistoryIcon from '@/icons/HistoryIcon';
-import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 
-type NavigationName = null | 'assets' | 'history' | 'return';
+type NavigationName = null | 'assets' | 'rentalList';
 
 export function NavigationMenus() {
   const navigateAssets = useNavigateAssets();
-  const navigateRentalHistory = useNavigateRentalHistory();
-  const navigateRentalReturn = useNavigateRentalReturn();
+  const navigateRentalHistory = useNavigateRentalList();
   const pathname = usePathname();
   let navigationName: NavigationName = null;
 
-  if (pathname.startsWith('/asset')) {
+  if (pathname.startsWith(getAssetsPath())) {
     navigationName = 'assets';
-  } else if (pathname.endsWith('/history')) {
-    navigationName = 'history';
-  } else if (pathname.endsWith('/return')) {
-    navigationName = 'return';
+  } else if (pathname.endsWith(getRentalListPath())) {
+    navigationName = 'rentalList';
   }
 
   const handleAssetsClick = () => {
@@ -34,40 +29,22 @@ export function NavigationMenus() {
     navigateRentalHistory();
   };
 
-  const handleReturnClick = () => {
-    navigateRentalReturn();
-  };
-
   return (
     <div className={styles.layout}>
 
       {/* レンタル履歴 */}
       <MenuBaseButton
         label="レンタル履歴"
-        variant="white"
         icon={<HistoryIcon />}
         onClick={handleHistoryClick}
-        hoverable
-        isActive={navigationName === 'history'}
-      />
-
-      {/* アセット返却 */}
-      <MenuBaseButton
-        label="返す"
-        variant="white"
-        icon={<HistoryIcon />}
-        onClick={handleReturnClick}
-        hoverable
-        isActive={navigationName === 'return'}
+        isActive={navigationName === 'rentalList'}
       />
 
       {/* アセット一覧 */}
       <MenuBaseButton
         label="レンタル"
-        variant="white"
         icon={<Grid2x2Icon />}
         onClick={handleAssetsClick}
-        hoverable
         isActive={navigationName === 'assets'}
       />
     </div>

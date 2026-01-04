@@ -1,1 +1,23 @@
-.pageLayout {}
+.pageLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form {}
+
+.assetTable {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.assetListTitle {
+  padding: 20px 0;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: 1fr 4fr 0fr;
+  gap: 20px;
+}

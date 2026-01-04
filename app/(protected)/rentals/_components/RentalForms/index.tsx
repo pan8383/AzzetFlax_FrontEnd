@@ -5,52 +5,56 @@ import { useCart } from '@/contexts/RentalCartContext';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import BaseButton from '@/components/common/BaseButton';
-import { useRentalRegisterPath } from '@/components/hooks/useNavigation';
 import { postApi } from '@/lib/postApi';
 import { BaseTable } from '@/components/common/BaseTable';
-import { AssetEntity } from '@/types/api/entities';
 import {
-  CreateRentalRequest,
-  RentalCreateResponse,
+  Asset,
+  RentalCreateRequest,
   RentalCreateResult,
 } from '@/types/api/api';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import DatePicker, { registerLocale } from "react-datepicker";
 import { ja } from "date-fns/locale/ja";
+import RentalResultTableView from '../RentalResultTableView';
+import { getRentalsCreateApiPath } from '@/components/hooks/useNavigation';
 import "react-datepicker/dist/react-datepicker.css";
-import RentalResultTableView from '@/app/(protected)/assets/rental/history/_components/RentalResultTableView';
 
-type RentalTableColumn = AssetEntity & {
+type RentalTableColumn = Asset & {
   quantity: number;
 };
 
 type RentalFormValues = {
-  items: CreateRentalRequest[];
+  expectedReturnDate: string;
+  remarks: string | null;
 };
 
 export default function RentalForm() {
   registerLocale("ja", ja);
 
-  const RENTAL_REGISTER_PATH = useRentalRegisterPath();
+  const RENTALS_CREATE_API_PATH = getRentalsCreateApiPath();
   const { cartItems, removeFromCart, clearCart } = useCart();
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const {
-    register,
+    control,
     handleSubmit,
     reset,
-    watch,
-    control,
-  } = useForm<RentalFormValues>();
+  } = useForm<RentalFormValues>({
+    defaultValues: {
+      expectedReturnDate: '',
+      remarks: null,
+    },
+  });
 
-  const [resultDatas, setResultDatas] = useState<RentalCreateResult[]>([]);
+  const [resultDatas, setResultDatas] = useState<RentalCreateResult | null>(null);
 
   const columnHelper = createColumnHelper<RentalTableColumn>();
   const columns: ColumnDef<RentalTableColumn, any>[] = [
     columnHelper.accessor('name', {
       header: '名前',
-      cell: (info) => <i>{info.getValue()}</i>,
+      enableSorting: false,
+      cell: (info) => <i>{info.getValue()}</i>
     }),
     columnHelper.accessor('categoryName', {
       header: 'カテゴリー',
@@ -58,72 +62,21 @@ export default function RentalForm() {
     }),
     columnHelper.accessor('model', {
       header: '型番',
+      enableSorting: false,
     }),
     columnHelper.accessor('manufacturer', {
       header: 'メーカー',
+      enableSorting: false,
     }),
     columnHelper.accessor('quantity', {
       header: '数量',
-      size: 50,
       enableSorting: false,
-    }),
-    columnHelper.display({
-      id: 'due',
-      header: '返却予定日',
-      size: 150,
-      cell: (info) => {
-        const index = info.row.index;
-
-        return (
-          <Controller
-            name={`items.${index}.due`}
-            control={control}
-            rules={{ required: '返却予定日は必須です' }}
-            render={({ field, fieldState }) => (
-              <div style={{ position: 'relative', zIndex: 1000 }}>
-                <DatePicker
-                  selected={field.value ? new Date(field.value) : null}
-                  onChange={(date: Date | null) => {
-                    if (!date) {
-                      field.onChange("");
-                      return;
-                    }
-                    const iso = date.toISOString().split("T")[0];
-                    field.onChange(iso);
-                  }}
-                  dateFormat="yyyy/MM/dd"
-                  locale="ja"
-                  placeholderText="日付を選択"
-                  className={styles.dateInput}
-                  portalId="__next"
-                />
-                {fieldState.error && (
-                  <p style={{ color: 'red' }}>{fieldState.error.message}</p>
-                )}
-              </div>
-            )}
-          />
-        );
-      },
-    }),
-    columnHelper.display({
-      id: 'remarks',
-      header: '備考',
-      size: 150,
-      cell: (info) => {
-        const index = info.row.index;
-        return (
-          <textarea
-            {...register(`items.${index}.remarks` as const)}
-            rows={2}
-            className={styles.remarksTextarea}
-          />
-        );
-      },
+      size: 50,
     }),
     columnHelper.display({
       id: 'actions',
       header: '操作',
+      enableSorting: false,
       size: 80,
       cell: (info) => (
         <BaseButton
@@ -136,25 +89,22 @@ export default function RentalForm() {
     }),
   ];
 
-  // 送信処理
-  const onSubmit = async () => {
+  const onSubmit = async (formData: RentalFormValues) => {
     setLoading(true);
     setError('');
 
-    const payload: CreateRentalRequest[] = cartItems.map((item, index) => {
-      const dueValue = watch(`items.${index}.due`) || '';
-      const remarksValue = watch(`items.${index}.remarks`) || '';
-      return {
+    const payload: RentalCreateRequest = {
+      expectedReturnDate: formData.expectedReturnDate,
+      remarks: formData.remarks,
+      assets: cartItems.map(item => ({
         assetId: item.assetId,
         quantity: item.quantity,
-        due: dueValue,
-        remarks: remarksValue || null,
-      };
-    });
+      })),
+    };
 
     try {
-      const res = await postApi<RentalCreateResponse, CreateRentalRequest[]>(RENTAL_REGISTER_PATH, payload);
-      setResultDatas(res.data ?? []);
+      const res = await postApi<RentalCreateResult, RentalCreateRequest>(RENTALS_CREATE_API_PATH, payload);
+      setResultDatas(res.data ?? null);
       setSuccess('レンタルしました');
       reset();
       clearCart();
@@ -166,19 +116,15 @@ export default function RentalForm() {
   };
 
   useEffect(() => {
-    console.log(resultDatas);
+    console.log('resultDatas updated:', resultDatas);
   }, [resultDatas]);
 
   return (
     <>
-      {cartItems.length === 0 ? (
-        <div className="no-data">カートは空です</div>
-      ) : (
+      {cartItems.length !== 0 && (
         <form
           onSubmit={handleSubmit(onSubmit)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') e.preventDefault();
-          }}
+          onKeyDown={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
         >
           <h2>レンタル</h2>
 
@@ -186,6 +132,49 @@ export default function RentalForm() {
             columns={columns}
             data={cartItems}
           />
+
+          <div className={styles.inputGroup}>
+            <label className={styles.inputLabel}>返却予定日</label>
+            <Controller
+              name="expectedReturnDate"
+              control={control}
+              rules={{ required: '返却予定日は必須です' }}
+              render={({ field, fieldState }) => (
+                <div style={{ position: 'relative', zIndex: 1000 }}>
+                  <DatePicker
+                    selected={field.value ? new Date(field.value) : null}
+                    onChange={(date: Date | null) => {
+                      field.onChange(date ? date.toISOString().split('T')[0] : '');
+                    }}
+                    dateFormat="yyyy-MM-dd"
+                    locale="ja"
+                    placeholderText="日付を選択"
+                    className={styles.dateInput}
+                    portalId="__next"
+                  />
+                  {fieldState.error && (
+                    <p className={styles.error}>{fieldState.error.message}</p>
+                  )}
+                </div>
+              )}
+            />
+          </div>
+
+          <div className={styles.inputGroup}>
+            <label className={styles.inputLabel}>備考</label>
+            <Controller
+              name="remarks"
+              control={control}
+              render={({ field }) => (
+                <textarea
+                  className={styles.remarksTextarea}
+                  {...field}
+                  value={field.value ?? ""}
+                  rows={2}
+                />
+              )}
+            />
+          </div>
 
           {success && <p style={{ color: 'green' }}>{success}</p>}
           {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -202,7 +191,7 @@ export default function RentalForm() {
         </form>
       )}
 
-      {resultDatas.length > 0 && (
+      {resultDatas !== null && (
         <RentalResultTableView datas={resultDatas} />
       )}
     </>

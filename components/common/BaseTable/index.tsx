@@ -12,8 +12,8 @@ import {
 
 export type SortDirection = 'asc' | 'desc'
 export type ColumnSort = {
-  id: string
-  desc: boolean
+  id: string;
+  desc: boolean;
 }
 
 export type SortingState = ColumnSort[]
@@ -24,6 +24,7 @@ type BaseTableProps<T, K extends keyof T = keyof T> = {
   onSort?: (field: Extract<K, string>, direction: 'asc' | 'desc') => void;
   onRowClick?: (row: T) => void;
   totalPages?: number;
+  initialSorting?: SortingState
 }
 
 export function BaseTable<T>({
@@ -32,12 +33,15 @@ export function BaseTable<T>({
   onSort,
   onRowClick,
   totalPages,
+  initialSorting = [],
 }: BaseTableProps<T>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [sorting, setSorting] = React.useState<SortingState>(initialSorting);
+
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10
   });
+
   const table = useReactTable({
     columns,
     data,
@@ -53,29 +57,16 @@ export function BaseTable<T>({
     pageCount: totalPages,
     manualPagination: true,
     onSortingChange: (updater) => {
-      let newSorting: SortingState
+      let newSorting: SortingState = typeof updater === 'function' ? updater(sorting) : updater;
+      setSorting(newSorting);
 
-      if (typeof updater === 'function') {
-        newSorting = updater(sorting)
-      } else {
-        newSorting = updater
-      }
-
-      setSorting(newSorting)
-
+      // サーバーに問い合わせ
       if (onSort && newSorting.length > 0) {
-        const firstSort = newSorting[0]
-        const column = table.getAllColumns().find(c => c.id === firstSort.id)
-
-        if (!column?.getCanSort()) return
-
-        // firstSort.id が string の場合のみ処理
-        if (typeof firstSort.id === 'string' && onSort) {
-          onSort(firstSort.id as Extract<keyof T, string>, firstSort.desc ? 'desc' : 'asc')
-        }
+        const firstSort = newSorting[0];
+        onSort(firstSort.id as Extract<keyof T, string>, firstSort.desc ? 'desc' : 'asc');
       }
     },
-  })
+  });
 
   return (
     <div className={styles.tableWrapper}>

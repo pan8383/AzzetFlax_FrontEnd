@@ -1,0 +1,74 @@
+.toggleHeader {
+  display: inline-flex;
+  user-select: none;
+  cursor: pointer;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.hidden {
+  display: none;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputLabel {
+  font-weight: bold;
+}
+
+.input {
+  padding: 5px 10px;
+  border: solid 1px gray;
+  border-radius: 3px;
+}
+
+.inputHelp {
+  color: var(--help);
+}
+
+.dateInput {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.calendar {
+  width: 100%;
+  background-color: #fff;
+}
+
+.remarksTextarea {
+  width: 100%;
+  font-size: 14px;
+  padding: 4px;
+}
+
+.submitButton {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  color: var(--secondary);
+  background-color: var(--primary);
+  cursor: pointer;
+}
+
+.submitButton svg {
+  width: 20px;
+  height: auto;
+}

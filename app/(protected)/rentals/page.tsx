@@ -2,22 +2,16 @@
 
 import styles from './page.module.css';
 import RentalForms from './_components/RentalForms';
-import BaseButton from '@/components/common/BaseButton';
-import { useNavigateHome } from '@/components/hooks/useNavigation';
+import { useBreadcrumbs } from '@/components/hooks/useBreadcrumbs';
+import { RENTAL } from '@/components/ui/Breadcrumbs/breadcrumbs';
 
-export default function Register() {
-  const navigateHome = useNavigateHome();
+export default function Page() {
+
+  // パンくずリスト
+  useBreadcrumbs(RENTAL);
 
   return (
     <div className={styles.pageLayout}>
-      <div>
-        <BaseButton
-          label='ホームに戻る'
-          size='sm'
-          variant='dark'
-          onClick={navigateHome}
-        />
-      </div>
       <RentalForms />
     </div>
   );

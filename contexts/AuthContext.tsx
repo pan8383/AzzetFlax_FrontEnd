@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { AuthUser } from '@/types/api/api';
 import { postApi } from '@/lib/postApi';
-import { useLoginPath, useLogoutApiPath, useNavigateLogin, useRefreshApiPath } from '@/components/hooks/useNavigation';
+import { getLoginPath, getLogoutApiPath, getRefreshApiPath, useNavigateLogin } from '@/components/hooks/useNavigation';
 
 type AuthContextType = {
 	user: AuthUser | null;
@@ -24,9 +24,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const [isInitialized, setIsInitialized] = useState(false);
 
 	const navigateLogin = useNavigateLogin();
-	const LOGIN_PATH = useLoginPath();
-	const LOGOUT_API_PATH = useLogoutApiPath();
-	const REFRESH_API_PATH = useRefreshApiPath();
+	const LOGIN_PATH = getLoginPath();
+	const LOGOUT_API_PATH = getLogoutApiPath();
+	const REFRESH_API_PATH = getRefreshApiPath();
 
 	// 初期化（refresh）
 	useEffect(() => {

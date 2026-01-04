@@ -1,3 +1,5 @@
+'use client'
+
 import styles from '@/components/common/Pagination/Pagination.module.css';
 import ChevronIcon from '@/icons/ChevronIcon';
 

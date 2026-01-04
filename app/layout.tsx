@@ -5,7 +5,8 @@ import Header from '@/components/layout/Header';
 import { CartProvider } from '@/contexts/RentalCartContext';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { RentalReturnProvider } from '@/contexts/RentalReturnContext';
-
+import { BreadcrumbProvider } from '@/contexts/BreadcrumbContext';
+import Breadcrumbs from '@/components/ui/Breadcrumbs';
 
 const notoSans = Noto_Sans_JP({
   weight: ['400', '700'],
@@ -41,8 +42,11 @@ export default function RootLayout({
         <AuthProvider>
           <CartProvider>
             <RentalReturnProvider>
-              <Header />
-              <main className="main">{children}</main>
+              <BreadcrumbProvider>
+                <Header />
+                <Breadcrumbs />
+                <main className="main">{children}</main>
+              </BreadcrumbProvider>
             </RentalReturnProvider>
           </CartProvider>
         </AuthProvider>

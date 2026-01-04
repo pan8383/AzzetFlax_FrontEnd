@@ -1,12 +1,9 @@
 import { useState, useEffect } from 'react';
-import { fetchApi } from '@/lib/fetchApi';
+import { getApi } from '@/lib/getApi';
 import { Asset, AssetResponse } from '@/types/api/api';
 import { PaginationState } from '../common/Pagination/Pagination';
-import { useAssetsApiPath } from './useNavigation';
+import { getAssetsApiPath } from './useNavigation';
 
-/**
- * APIクエリパラメータ（検索）
- */
 export type AssetsQueryParams = {
   search: string;
   categoryCode: string | null;
@@ -17,22 +14,16 @@ export type AssetsQueryParams = {
 }
 
 export function useAssets(rowSize: number) {
-  // アセット状態管理
-  const [assets, setAssets] = useState<Asset[] | []>([]);
-
-  const ASSETS_API_PATH = useAssetsApiPath();
-
-  // クエリパラメータ状態管理
+  const [assets, setAssets] = useState<Asset[]>([]);
   const [searchParams, setSearchParams] = useState<AssetsQueryParams>({
     search: '',
     categoryCode: null,
     page: 0,
     size: rowSize,
     sortField: 'name',
-    sortDirection: 'asc',
+    sortDirection: 'desc',
   });
 
-  // ページネーション状態管理
   const [pageInfo, setPageInfo] = useState<PaginationState>({
     page: 0,
     size: rowSize,
@@ -40,66 +31,49 @@ export function useAssets(rowSize: number) {
     totalElements: 0,
   });
 
-  // ローディング状態管理
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
 
-  // エラー状態管理
-  const [fetchError, setFetchError] = useState<boolean>(false);
+  const ASSETS_API_PATH = getAssetsApiPath();
 
-  // rowSize が変わったときに検索条件を更新
-  useEffect(() => {
-    setSearchParams(prev => ({
-      ...prev,
-      size: rowSize,
-      page: 0,
-    }));
-  }, [rowSize]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setFetchError(false);
-      try {
-
-        const res = await fetchApi<AssetResponse>(ASSETS_API_PATH, {
-          params: {
-            ...(searchParams.search ? { search: searchParams.search } : {}),
-            ...(searchParams.categoryCode ? { categoryCode: searchParams.categoryCode } : {}),
-            page: searchParams.page,
-            size: searchParams.size,
-            sort: searchParams.sortField
-              ? `${searchParams.sortField},${searchParams.sortDirection}`
-              : undefined,
-          }
-        });
-
-        if (!res) {
-          setPageInfo({
-            page: searchParams.page,
-            size: searchParams.size,
-            totalPages: 0,
-            totalElements: 0,
-          });
-          setAssets([]);
-          return;
-        }
-
-        setAssets(res.content ?? []);
-        setPageInfo({
+  const fetchData = async () => {
+    setLoading(true);
+    setFetchError(false);
+    try {
+      const res = await getApi<AssetResponse>(ASSETS_API_PATH, {
+        params: {
+          ...(searchParams.search ? { search: searchParams.search } : {}),
+          ...(searchParams.categoryCode ? { categoryCode: searchParams.categoryCode } : {}),
           page: searchParams.page,
           size: searchParams.size,
-          totalPages: res.totalPages,
-          totalElements: res.totalElements,
-        });
-      } catch {
-        setFetchError(true);
-      } finally {
-        setLoading(false);
-      }
-    };
+          sort: `${searchParams.sortField},${searchParams.sortDirection}`,
+        }
+      });
 
+      setAssets(res?.content ?? []);
+      setPageInfo({
+        page: searchParams.page,
+        size: searchParams.size,
+        totalPages: res?.totalPages ?? 0,
+        totalElements: res?.totalElements ?? 0,
+      });
+    } catch {
+      setFetchError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
-  }, [searchParams]);
+  }, [
+    searchParams.search,
+    searchParams.categoryCode,
+    searchParams.sortField,
+    searchParams.sortDirection,
+    searchParams.size,
+    searchParams.page,
+  ]);
 
   const updateQueryParams = (updater: (prev: AssetsQueryParams) => AssetsQueryParams) => {
     setSearchParams(prev => updater(prev));
@@ -110,6 +84,8 @@ export function useAssets(rowSize: number) {
     pageInfo,
     loading,
     fetchError,
+    searchParams,
     updateQueryParams,
+    refetch: fetchData,
   };
 }

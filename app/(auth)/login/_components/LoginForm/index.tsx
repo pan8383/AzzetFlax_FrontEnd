@@ -4,12 +4,12 @@ import styles from './loginForm.module.css';
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import Loader from '@/components/common/Loader';
-import { useForgotPasswordPath, useLoginApiPath, useLoginPath, useNavigateHome } from '@/components/hooks/useNavigation';
 import { useForm } from 'react-hook-form';
 import BaseButton from '@/components/common/BaseButton';
 import { postApi } from '@/lib/postApi';
 import Link from 'next/link';
 import { AuthUser } from '@/types/api/api';
+import { getForgotPasswordPath, getLoginApiPath, useNavigateHome } from '@/components/hooks/useNavigation';
 
 
 type LoginFormValues = {
@@ -18,7 +18,7 @@ type LoginFormValues = {
 };
 
 export default function LoginForm() {
-	const LOGIN_API_PATH = useLoginApiPath();
+	const LOGIN_API_PATH = getLoginApiPath();
 	const navigateHome = useNavigateHome();
 	const { login } = useAuth();
 	const [error, setError] = useState('');
@@ -29,7 +29,7 @@ export default function LoginForm() {
 		formState: { errors },
 	} = useForm<LoginFormValues>();
 
-	const FORGOT_PASSWORD_PATH = useForgotPasswordPath();
+	const FORGOT_PASSWORD_PATH = getForgotPasswordPath();
 
 	const onSubmit = async (formData: LoginFormValues) => {
 		setLoading(true);

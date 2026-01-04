@@ -1,14 +1,14 @@
-import { fetchApi } from "@/lib/fetchApi";
+import { getApi } from "@/lib/getApi";
 import { useCallback, useEffect, useState } from "react";
-import { useCategoryListPath } from "./useNavigation";
 import { Category, CategoryResponse } from "@/types/api/api";
+import { getCategoryListApiPath } from "./useNavigation";
 
 
 /**
  * カテゴリーを取得する
  */
 export function useCategory() {
-  const CATEGORY_LIST_PATH = useCategoryListPath();
+  const CATEGORY_LIST_API_PATH = getCategoryListApiPath();
   const [category, setcategory] = useState<Category[]>([]);
   const [categoryLoading, setcategoryLoading] = useState<boolean>(true);
   const [categoryFetchError, setcategoryFetchError] = useState<boolean>(false);
@@ -19,14 +19,14 @@ export function useCategory() {
       setcategoryFetchError(false);
 
       try {
-        const res = await fetchApi<CategoryResponse>(CATEGORY_LIST_PATH);
+        const res = await getApi<CategoryResponse>(CATEGORY_LIST_API_PATH);
         setcategory(res.data ?? []);
       } catch (err) {
         setcategoryFetchError(true);
       } finally {
         setcategoryLoading(false);
       }
-    }, [CATEGORY_LIST_PATH]);
+    }, [CATEGORY_LIST_API_PATH]);
 
   useEffect(() => {
     fetchData();

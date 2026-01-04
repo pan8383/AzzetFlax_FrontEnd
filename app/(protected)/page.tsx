@@ -1,9 +1,12 @@
 'use client';
 
-import { HelpCard } from './_components/HelpCard';
-import styles from './page.module.css';
+import { useBreadcrumbs } from '@/components/hooks/useBreadcrumbs';
 
-export default function Home() {
+export default function Page() {
+
+  // パンくずリスト
+  useBreadcrumbs();
+
   return (
     <>
       <h2>Top Page</h2>

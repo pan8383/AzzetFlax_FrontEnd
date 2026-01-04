@@ -5,9 +5,11 @@
 }
 
 .dateInput {
-  width: 150px;
-  padding: 4px 6px;
+  width: 100%;
+  padding: 10px 15px;
   font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
 
 .remarksTextarea {

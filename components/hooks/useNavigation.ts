@@ -1,129 +1,134 @@
 import { ROUTES } from '@/lib/routes';
 import { useRouter } from 'next/navigation';
 
-
+//
 // =======================
-// API パス 
+// API PATH
 // =======================
-
 // auth
-export const useLoginApiPath = () => ROUTES.api.auth.login;
-export const useLogoutApiPath = () => ROUTES.api.auth.logout;
-export const useSignupApiPath = () => ROUTES.api.auth.signup;
-export const useRefreshApiPath = () => ROUTES.api.auth.refresh;
+export const getLoginApiPath = () => ROUTES.api.auth.login;
+export const getLogoutApiPath = () => ROUTES.api.auth.logout;
+export const getSignupApiPath = () => ROUTES.api.auth.signup;
+export const getRefreshApiPath = () => ROUTES.api.auth.refresh;
 
 // assets
-export const useAssetsApiPath = () => ROUTES.api.assets.list;
+export const getAssetsApiPath = () => ROUTES.api.assets.list;
+export const getAssetCreateApiPath = () => ROUTES.api.assets.create;
+export const getAssetUpdateApiPath = () => ROUTES.api.assets.update;
+export const getAssetDeleteApiPath = (assetId: string) => ROUTES.api.assets.assetDelete(assetId);
+
+// asset-units
+export const getAssetUnitsApiPath = (assetId: string) => ROUTES.api.assets.unitsList(assetId);
+export const getAssetUnitsCreateApiPath = (assetId: string) => ROUTES.api.assets.unitsCreate(assetId);
+export const getAssetUnitsUpdateApiPath = () => ROUTES.api.assets.unitUpdate;
+export const getAssetUnitsDeleteApiPath = (unitId: string) => ROUTES.api.assets.unitDelete(unitId);
 
 // users
-export const useUsersApiPath = () => ROUTES.api.users.list;
-export const useUsersCreateApiPath = () => ROUTES.api.users;
+export const getUsersApiPath = () => ROUTES.api.users.list;
 
-
-
-// ---------- パス ----------
-// home
-export const useHomePath = () => ROUTES.route.home;
-// admin
-export const useAdminPath = () => ROUTES.route.admin.home;
-export const useAssetManagementPath = () => ROUTES.route.admin.assets;
-export const useUserManagementPath = () => ROUTES.route.admin.users;
-
-// auth
-export const useLoginPath = () => ROUTES.route.auth.login;
-export const useForgotPasswordPath = () => ROUTES.route.auth.forgotPassword;
-
-// users
-export const useUsersPath = () => ROUTES.route.admin.users;
-
-
-// assets
-export const useAssetPath = () => ROUTES.route.assets.list;
-export const useRentalHistoryPath = () => ROUTES.route.rentals.list;
-
-// rental
-export const useRentalReturnPath = () => ROUTES.route.rentals.list;
+// rentals
+export const getRentalsApiPath = () => ROUTES.api.assets.rentals.list;
+export const getRentalDetailsApiPath = (rentalId: string) => ROUTES.api.assets.rentals.detail(rentalId);
+export const getRentalsCreateApiPath = () => ROUTES.api.assets.rentals.create;
+export const getRentalsReturnApiPath = () => ROUTES.api.assets.rentals.return;
 
 // category
-export const useCategoryListPath = () => ROUTES.api.category.list;
+export const getCategoryListApiPath = () => ROUTES.api.category.list;
+
+// locations
+export const getLocationsListApiPath = () => ROUTES.api.locations.list;
 
 
+//
+// =======================
+// ROUTE PATH
+// =======================
+// home
+export const getHomePath = () => ROUTES.route.home;
+
+// auth
+export const getLoginPath = () => ROUTES.route.auth.login;
+export const getForgotPasswordPath = () => ROUTES.route.auth.forgotPassword;
+
+// admin
+export const getAdminHomePath = () => ROUTES.route.admin.home;
+export const getAdminUsersPath = () => ROUTES.route.admin.users;
+export const getAdminAssetsPath = () => ROUTES.route.admin.assets.list;
+export const getAdminAssetDetailPath = (assetId: string) =>
+  ROUTES.route.admin.assets.detail(assetId);
+export const getAdminAssetUnitDetailPath = (assetId: string, unitId: string) =>
+  ROUTES.route.admin.assets.detailUnit(assetId, unitId);
+
+// assets
+export const getAssetsPath = () => ROUTES.route.assets.list;
+
+// rentals
+export const getRentalPath = () => ROUTES.route.rentals.create;
+export const getRentalListPath = () => ROUTES.route.rentals.list;
+export const getRentalDetailPath = (rentalId: string) => ROUTES.route.rentals.detail(rentalId);
+export const getRentalReturnPath = () => ROUTES.route.rentals.return;
 
 
-
-
-
-
-// ---------- 共通 ----------
-const useNavigateTo = (path: string): (() => void) => {
+//
+// =======================
+// NAVIGATION HOOK
+// =======================
+const useNavigateTo = (path: string) => {
   const router = useRouter();
   return () => router.push(path);
 };
 
-// ---------- ホーム ----------
-export const useNavigateHome = () => {
-  return useNavigateTo(useHomePath());
+// home
+export const useNavigateHome = () =>
+  useNavigateTo(getHomePath());
+
+// auth
+export const useNavigateLogin = () =>
+  useNavigateTo(getLoginPath());
+
+export const useNavigateForgotPassword = () =>
+  useNavigateTo(getForgotPasswordPath());
+
+// admin
+export const useNavigateAdminHome = () =>
+  useNavigateTo(getAdminHomePath());
+
+export const useNavigateAdminUsers = () =>
+  useNavigateTo(getAdminUsersPath());
+
+export const useNavigateAdminAssets = () =>
+  useNavigateTo(getAdminAssetsPath());
+
+export const useNavigateAssetAdminDetail = () => {
+  const router = useRouter();
+  return (assetId: string) => {
+    router.push(getAdminAssetDetailPath(assetId));
+  };
 };
 
-// ---------- 管理者ページ ----------
-export const useNavigateAdmin = () => {
-  return useNavigateTo(useAdminPath());
+export const useNavigateAssetAdminUnitDetail = () => {
+  const router = useRouter();
+  return (assetId: string, unitId: string) => {
+    router.push(getAdminAssetUnitDetailPath(assetId, unitId));
+  };
 };
 
-// ---------- 認証 ----------
-export const useNavigateLogin = () => {
-  return useNavigateTo(useLoginPath());
-};
+export const useNavigateAssets = () =>
+  useNavigateTo(getAssetsPath());
 
-export const useNavigateSignup = () => {
-  return useNavigateTo(useLoginPath());
-};
+// rentals
+export const useNavigateRental = () =>
+  useNavigateTo(getRentalPath());
 
-export const useNavigateForgotPassword = () => {
-  return useNavigateTo(useForgotPasswordPath());
-};
+export const useNavigateRentalList = () =>
+  useNavigateTo(getRentalListPath());
 
+export const useNavigateRentalReturn = () =>
+  useNavigateTo(getRentalReturnPath());
 
-
-// ---------- user ----------
-export const useNavigateUsers = () => {
-  return useNavigateTo(useUsersPath());
-};
-
-
-
-
-// ---------- asset ----------
-export const useNavigateAssets = () => {
-  return useNavigateTo(useAssetPath());
-};
-
-
-export const useNavigateAssetsDeleteConfirm = () => {
-  return useNavigateTo('/asset/delete/confirm');
-};
-
-// ---------- asset ----------
-
-
-
-// ---------- Rental ----------
-export const useNavigateRental = () => {
-  return useNavigateTo('/rental');
-};
-export const useNavigateRentalReturn = () => {
-  return useNavigateTo(useRentalReturnPath());
-};
-
-
-
-export const useNavigateRentalHistory = () => {
-  return useNavigateTo(useRentalHistoryPath());
-};
-
-export const useNavigateRentalHistoryDetail = () => {
+export const useNavigateRentalListDetail = () => {
   const router = useRouter();
   return (rentalId: string) => {
-    router.push(useRentalHistoryPath() + `/${rentalId}`);
+    router.push(getRentalDetailPath(rentalId));
   };
 };

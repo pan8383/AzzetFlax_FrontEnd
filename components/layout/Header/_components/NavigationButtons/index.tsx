@@ -4,18 +4,18 @@ import styles from './NavigationMenus.module.css';
 import BellDotIcon from "@/icons/BellDotIcon";
 import ModalWindow from '@/components/common/ModalWindow';
 import CircleUserRoundIcon from '@/icons/CircleUserRoundIcon';
-import { useNavigateAdmin, useNavigateHome } from '@/components/hooks/useNavigation';
 import LogOutIcon from '@/icons/LogOutIcon';
 import BaseList from '@/components/common/BaseList';
 import CrownIcon from '@/icons/CrownIcon';
 import UserIcon from '@/icons/UserIcon';
 import { useAuth } from '@/contexts/AuthContext';
+import { useNavigateAdminHome, useNavigateHome } from '@/components/hooks/useNavigation';
 
 export default function NavigationButtons() {
   const { user, logout } = useAuth();
 
   const navigateHome = useNavigateHome();
-  const navigateAdmin = useNavigateAdmin();
+  const navigateAdminHome = useNavigateAdminHome();
 
   const handleLogout = async () => {
     try {
@@ -64,16 +64,11 @@ export default function NavigationButtons() {
           }
         >
           <div className={styles.listItems}>
-            <BaseList
-              label='マイページ'
-              icon={<UserIcon />}
-              onClick={() => handleLogout()}
-            />
             {user?.role === 'ADMIN' && (
               <BaseList
                 label='管理者ページ'
                 icon={<CrownIcon />}
-                onClick={() => navigateAdmin()}
+                onClick={() => navigateAdminHome()}
               />
 
             )}

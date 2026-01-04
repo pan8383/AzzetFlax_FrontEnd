@@ -10,6 +10,10 @@
   margin-top: 20px;
 }
 
+.hidden {
+  display: none;
+}
+
 .inputGroup {
   display: flex;
   flex-direction: column;

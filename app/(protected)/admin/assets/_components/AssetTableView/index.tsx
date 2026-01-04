@@ -4,22 +4,40 @@ import styles from './AssetTableView.module.css';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { BaseTable } from '@/components/common/BaseTable';
 import { AssetsQueryParams } from '@/components/hooks/useAssets';
-import { CartItem } from '@/types/context/RentalCartContextTypes';
-import { AssetEntity } from '@/types/api/entities';
+import { Asset } from '@/types/api/api';
+import { getAssetDeleteApiPath, useNavigateAssetAdminDetail } from '@/components/hooks/useNavigation';
+import { deleteApi } from '@/lib/deleteApi';
 
 type Props = {
-  assets: AssetEntity[];
-  addToCart: (asset: AssetEntity) => void;
-  cartItems: CartItem[];
+  assets: Asset[];
   updateQueryParams: (updater: (prev: AssetsQueryParams) => AssetsQueryParams) => void;
   totalPages?: number;
+  onDeleted?: () => void;
 }
 
-type AssetTableColumn = AssetEntity & {
+type AssetTableColumn = Asset & {
   actions?: React.ReactNode
 };
 
-export default function AssetTableView({ assets, addToCart, cartItems, updateQueryParams, totalPages }: Props) {
+export default function AssetTableView({ assets, updateQueryParams, totalPages, onDeleted }: Props) {
+  const navigateAssetAdminDetail = useNavigateAssetAdminDetail();
+
+  const handleDelete = async (
+    e: React.MouseEvent,
+    assetId: string
+  ) => {
+    e.stopPropagation();
+
+    if (!confirm('このアセットを削除しますか？')) return;
+
+    try {
+      await deleteApi(getAssetDeleteApiPath(assetId));
+      onDeleted?.();
+    } catch {
+      alert('削除に失敗しました');
+    }
+  };
+
   const columnHelper = createColumnHelper<AssetTableColumn>();
   const columns: ColumnDef<AssetTableColumn, any>[] = [
     columnHelper.accessor('name', {
@@ -55,28 +73,26 @@ export default function AssetTableView({ assets, addToCart, cartItems, updateQue
       enableSorting: false,
     }),
     columnHelper.display({
-      id: 'actions',
-      header: '操作',
-      size: 80,
-      cell: (info) => (
+      id: 'delete',
+      header: '削除',
+      size: 70,
+      cell: ({ row }) => (
         <button
-          className={styles.cartAddBtn}
-          onClick={(e) => {
-            e.stopPropagation();
-            addToCart(info.row.original);
-          }}
-          disabled={
-            info.row.original.availableStock === 0 ||
-            cartItems.find((item) => item.assetId === info.row.original.assetId)?.quantity ===
-            info.row.original.availableStock
+          className={styles.deleteAssetButton}
+          onClick={(e) =>
+            handleDelete(e, row.original.assetId)
           }
         >
-          カートに追加する
+          削除
         </button>
       ),
       enableSorting: false,
     }),
   ]
+
+  const handleRow = (row: AssetTableColumn) => {
+    navigateAssetAdminDetail(row.assetId);
+  };
 
 
   if (assets.length === 0) return <div>データがありません。</div>;
@@ -97,6 +113,7 @@ export default function AssetTableView({ assets, addToCart, cartItems, updateQue
           page: 0,
         }))
       }}
+      onRowClick={handleRow}
     />
   );
 }

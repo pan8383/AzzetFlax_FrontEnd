@@ -90,27 +90,44 @@ export type UserCreateResponse = BaseResponse<null>;
 /**
  * レンタルリクエスト
  */
-export type CreateRentalRequest = {
+export type RentalUnitRequest = {
   assetId: string;
   quantity: number;
-  due: string;
-  remarks: string | null;
 }
+
+export type RentalCreateRequest = {
+  expectedReturnDate: string;
+  remarks: string | null;
+  assets: RentalUnitRequest[];
+}
+
 
 /**
  * レンタル処理の結果
  */
 export type RentalCreateResult = {
   rentalId: string | null;
-  assetId: string;
-  success: boolean;
-  message: string | null;
+  expectedReturnDate: string;
+  assetResponses: RentalCreateUnits[];
 }
+
+type RentalCreateUnits = {
+  assetId: string;
+  requestedQuantity: number;
+  units: RentalCreateUnit[];
+}
+
+type RentalCreateUnit = {
+  unitId: string;
+  success: boolean;
+  errorMessage: string;
+}
+
 
 /**
  * レンタル処理のレスポンスエンティティ
  */
-export type RentalCreateResponse = BaseResponse<RentalCreateResult[]>;
+export type RentalCreateResponse = BaseResponse<RentalCreateResult>;
 
 
 
@@ -134,6 +151,30 @@ export type Asset = {
   availableStock: number;
 }
 
+export type AssetUnitDetail = {
+  // Unit
+  unitId: string;
+  serialNumber: string;
+  status: 'AVAILABLE' | 'IN_USE' | 'MAINTENANCE' | 'BROKEN' | 'DISPOSED';
+  purchaseDate: string;
+  purchasePrice: number;
+  remarks?: string;
+
+  // Location
+  locationCode: string;
+  locationName: string;
+
+  // Asset
+  assetId: string;
+  name: string;
+  categoryCode: string;
+  categoryName: string;
+  model: string;
+  manufacturer: string;
+};
+
+
+
 /**
  * アセット登録
 */
@@ -144,6 +185,12 @@ export type AssetCreateResponse = BaseResponse<null>;
  * アセット
 */
 export type AssetResponse = BasePageResponse<Asset>;
+
+
+/**
+ * アセット詳細
+*/
+export type AssetUnitResponse = BaseResponse<AssetUnitDetail[]>;
 
 
 /**
@@ -161,33 +208,111 @@ export type Category = {
  */
 export type CategoryResponse = BaseResponse<Category[]>;
 
+/**
+ * ロケーション
+ */
+export type Location = {
+  locationCode: string;
+  name: string;
+  parentCode: string;
+  sortOrder: number;
+};
 
 /**
- * レンタル履歴
+ * ロケーションのレスポンスエンティティ
  */
-export type RentalHistory = {
+export type LocationsResponse = BaseResponse<Location[]>;
+
+
+
+/**
+ * レンタルリスト
+ */
+export type RentalAssetsList = {
   rentalId: string;
-  assetId: string;
-  unitId: string;
-  due: Date;
-  remarks: string;
-  returnAt: Date | null;
+  userId: string;
+  rentalDate: Date;
+  expectedReturnDate: Date;
+  actualReturnDate: Date;
   status: string;
-  createdAt: Date;
+  remarks: string;
+  units: RentalUnit[];
+}
+
+export type RentalUnit = {
+  rentalUnitId: string;
+  unitId: string;
+  rentalUnitStatus: string;
+  rentedAt: Date;
+  returnedAt: Date;
 }
 
 /**
- * レンタル履歴のページャーレスポンスエンティティ
+ * レンタル詳細
  */
-export type RentalHistoryResponse = BasePageResponse<RentalHistory>;
+export type RentalDetail = {
+  // Asset
+  assetId: string;
+  name: string;
+  categoryCode: string;
+  categoryName: string;
+  model: string;
+  manufacturer: string;
+
+  // Location
+  locationCode: string;
+  locationName: string;
+
+  // AssetUnit
+  unitId: string;
+  serialNumber: string;
+  status: 'AVAILABLE' | 'IN_USE' | 'MAINTENANCE' | 'BROKEN' | 'DISPOSED';
+  purchaseDate: Date;
+  purchasePrice: number;
+  remarks: string | null;
+
+  // RentalUnit
+  rentalUnitId: string;
+  rentalUnitStatus: RentalUnitStatus;
+  rentedAt: Date;
+  returnedAt: Date | null;
+};
+
+export type RentalDetailListResponse = BaseResponse<RentalDetail[]>;
+
+
+/**
+ * enum
+ * RENTING,   // レンタル中
+ * RETURNED,  // 返却済み
+ * CANCELLED; // キャンセル済み
+ */
+export type RentalUnitStatus = 'RENTING' | 'RETURNED' | 'CANCELLED';
+/**
+ * レンタル一覧のページャーレスポンスエンティティ
+ */
+export type RentalListResponse = BasePageResponse<RentalAssetsList>;
 
 
 /**
  * 返却処理の結果
  */
 type RentaReturnResult = {
-  rentalId: string | null;
-  success: boolean;
-  errorMessage: string | null;
+  rentalId: string;
+  status: string;
+  returnedUnitCount: number;
+  totalUnitCount: number;
 }
+
 export type RentalReturnResponse = BaseResponse<RentaReturnResult>;
+
+export type AssetView = {
+  assetId: string;
+  name: string;
+  categoryName: string;
+  model: string;
+  manufacturer: string;
+  isAvailable: boolean;
+  totalStock: number;
+  availableStock: number;
+};

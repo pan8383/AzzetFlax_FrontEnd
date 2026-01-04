@@ -13,7 +13,10 @@ export default function Header() {
 	return (
 		<header className={styles.site_header}>
 			{/* タイトル */}
-			<h1 onClick={handleHome} className={styles.title} >
+			<h1
+				className={styles.title}
+				onClick={handleHome}
+			>
 				Azzet Flux
 			</h1>
 

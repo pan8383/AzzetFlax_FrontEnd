@@ -1,0 +1,30 @@
+.pageLayout {}
+
+.returnButtonWrapper {
+  width: 100%;
+  text-align: end;
+  padding: 20px 0;
+}
+
+.returnButton {
+  padding: 6px 40px;
+  border: none;
+  border-radius: 6px;
+  color: var(--secondary);
+  background-color: var(--primary);
+  cursor: pointer;
+}
+
+.returnButton:active {
+  scale: 0.9;
+}
+
+.returnButton:disabled {
+  color: rgb(144, 144, 144);
+  background-color: rgb(210, 210, 210);
+  cursor: default;
+}
+
+.cartreturnButtonAddButton:disabled:active {
+  scale: 1;
+}

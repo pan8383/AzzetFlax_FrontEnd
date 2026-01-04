@@ -1,15 +1,22 @@
 'use client';
 
+import clsx from 'clsx';
 import styles from './CategorySelect.module.css';
 import { useCategory } from '@/components/hooks/useCategory';
 
 type CategorySelectProps = {
+  className?: string;
   value: string;
   onCategoryChange: (categoryCode: string) => void;
+  disabled?: boolean;
 };
 
-export default function CategorySelect({ value, onCategoryChange }: CategorySelectProps) {
+export default function CategorySelect({ className, value, onCategoryChange, disabled }: CategorySelectProps) {
   const { category, categoryLoading, categoryFetchError } = useCategory();
+
+  const selectBox = clsx(
+    className || styles.selectBox,
+  );
 
   // ローディング中表示
   if (categoryLoading) {
@@ -31,14 +38,14 @@ export default function CategorySelect({ value, onCategoryChange }: CategorySele
   }
 
   return (
-    <div className={styles.categorySelectContainer}>
-      <label htmlFor="category" className={styles.label}>カテゴリ</label>
+    <>
       <select
-        id="category"
-        name="category"
-        className={styles.selectBox}
+        className={selectBox}
+        id="categoryCode"
+        name="categoryCode"
         value={value || ''}
         onChange={e => onCategoryChange(e.target.value)}
+        disabled={disabled}
       >
         <option value="">すべて</option>
         {category.map(category => (
@@ -47,6 +54,6 @@ export default function CategorySelect({ value, onCategoryChange }: CategorySele
           </option>
         ))}
       </select>
-    </div>
+    </>
   );
 }

@@ -1,7 +1,9 @@
-import { useLoginPath } from '@/components/hooks/useNavigation';
 import axios from 'axios';
 
-const LOGIN_PATH = useLoginPath();
+import { ROUTES } from '@/lib/routes';
+
+const LOGIN_PATH = ROUTES.route.auth.login;
+const REFRESH_API_PATH = ROUTES.api.auth.refresh;
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:8080/api',
@@ -9,22 +11,45 @@ const axiosInstance = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
-// ログインページ判定
-const isLoginPage = () =>
-  typeof window !== 'undefined' && window.location.pathname === LOGIN_PATH;
+let isRefreshing = false;
+let refreshQueue: (() => void)[] = [];
 
-
-// =======================
-// レスポンスインターセプター
-// =======================
 axiosInstance.interceptors.response.use(
-  (response) => response, // 成功時はそのまま返す
-  (error) => {
+  res => res,
+  async error => {
     const status = error.response?.status;
+    const originalRequest = error.config;
 
-    if (status === 401 && !isLoginPage()) {
-      // 401 の場合にログインページへ遷移
-      window.location.href = LOGIN_PATH;
+    if (
+      status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url?.includes(REFRESH_API_PATH)
+    ) {
+      originalRequest._retry = true;
+
+      if (isRefreshing) {
+        return new Promise(resolve => {
+          refreshQueue.push(() => resolve(axiosInstance(originalRequest)));
+        });
+      }
+
+      isRefreshing = true;
+
+      try {
+        await axiosInstance.post(REFRESH_API_PATH);
+
+        refreshQueue.forEach(cb => cb());
+        refreshQueue = [];
+
+        return axiosInstance(originalRequest);
+      } catch {
+        if (typeof window !== 'undefined') {
+          window.location.href = LOGIN_PATH;
+        }
+        return Promise.reject(error);
+      } finally {
+        isRefreshing = false;
+      }
     }
 
     return Promise.reject(error);

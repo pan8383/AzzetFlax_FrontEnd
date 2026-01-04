@@ -2,14 +2,18 @@
 
 import styles from './page.module.css';
 import TableTitleButton from '@/components/common/TableTitleButton';
-import { useAssetManagementPath, useUsersPath } from '@/components/hooks/useNavigation';
+import { useBreadcrumbs } from '@/components/hooks/useBreadcrumbs';
+import { getAdminAssetsPath, getAdminUsersPath } from '@/components/hooks/useNavigation';
+import { ADMIN_PAGE } from '@/components/ui/Breadcrumbs/breadcrumbs';
 import CrownIcon from '@/icons/CrownIcon';
 import Link from 'next/link';
 
 export default function Page() {
-  const USERS_PATH = useUsersPath();
-  const ASSET_MANAGEMENT_PATH = useAssetManagementPath();
+  const ADMIN_USERS_PATH = getAdminUsersPath();
+  const ADMIN_ASSETS_PATH = getAdminAssetsPath();
 
+  // パンくずリスト
+  useBreadcrumbs(ADMIN_PAGE);
 
   return (
     <div className={styles.pageLayout}>
@@ -20,8 +24,8 @@ export default function Page() {
         disabled
       />
       <nav className={styles.navigation}>
-        <Link className={styles.navigationLink} href={USERS_PATH} >ユーザー管理へ</Link>
-        <Link className={styles.navigationLink} href={ASSET_MANAGEMENT_PATH} >アセット管理へ</Link>
+        <Link className={styles.navigationLink} href={ADMIN_USERS_PATH} >ユーザー管理へ</Link>
+        <Link className={styles.navigationLink} href={ADMIN_ASSETS_PATH} >アセット管理へ</Link>
       </nav>
     </div>
   );

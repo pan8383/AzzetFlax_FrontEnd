@@ -1,0 +1,38 @@
+.pageLayout {}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  margin: 50px 0;
+  gap: 20px;
+}
+
+.assetUnitTable {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.assetUnitListTitle {
+  padding: 20px 0;
+}
+
+.assetInfo {
+  display: inline-block;
+  padding: 20px 30px;
+  height: max-content;
+  border: solid 1px var(--primary);
+  border-radius: 6px;
+}
+
+.assetInfo dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px 16px;
+  align-items: center;
+}
+
+.assetInfo dt {
+  font-weight: bold;
+  text-align: right;
+}

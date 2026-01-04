@@ -1,8 +1,12 @@
-.pageLayout {}
-
 .tableOptions {
   display: flex;
   justify-content: end;
   align-items: center;
   gap: 30px;
+}
+
+.listWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
