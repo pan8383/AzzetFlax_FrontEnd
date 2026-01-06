@@ -5,7 +5,7 @@ import { ROUTES } from '@/lib/routes';
 const LOGIN_PATH = ROUTES.route.auth.login;
 const REFRESH_API_PATH = ROUTES.api.auth.refresh;
 
-const ENV = process.env.NEXT_PUBLIC_APP_ENV || 'dev';
+const ENV = process.env.APP_ENV || 'dev';
 const BASE_URL = ENV === 'pro'
   ? 'https://azzet-flux.kyo-miyaji.site/api'
   : 'http://localhost:8080/api';
