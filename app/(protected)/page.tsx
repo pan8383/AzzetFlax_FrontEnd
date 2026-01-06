@@ -1,83 +1,78 @@
 'use client';
 
 import styles from './page.module.css';
-import Link from 'next/link';
 import { useBreadcrumbs } from '@/components/hooks/useBreadcrumbs';
-import { getAssetsPath } from '@/components/hooks/useNavigation';
-import ShoppingCartIcon from '@/icons/ShoppingCartIcon';
+import TableTitleButton from '@/components/common/TableTitleButton';
+import Grid2x2Icon from '@/icons/Grid2x2Icon';
+import CategorySelect from '@/components/common/CategorySelect';
+import SearchBar from '@/components/common/SearchBar';
+import AssetTableView from './assets/_components/AssetTableView';
+import Pagination from '@/components/common/Pagination/Pagination';
+import { useState } from 'react';
+import { useCart } from '@/contexts/RentalCartContext';
+import { useAssets } from '@/components/hooks/useAssets';
 
 export default function Page() {
+  const [keyword, setKeyword] = useState('');
+  const [categoryCode, setCategoryCode] = useState('');
+  const { cartItems, addToCart } = useCart();
+  const { assets, pageInfo, loading, fetchError, updateQueryParams, searchParams } = useAssets(20);
 
   // パンくずリスト
   useBreadcrumbs();
 
+  // 検索ボタン押下時
+  const handleSearch = () => {
+    updateQueryParams(prev => ({
+      ...prev,
+      search: keyword,
+      categoryCode: categoryCode,
+      page: 0,
+    }));
+  };
+
+  if (loading) return <div>読み込み中...</div>;
+  if (fetchError) return <div>データ取得エラー...</div>;
+
+
   return (
     <>
-      <h2>使い方</h2>
+      {/* タイトル */}
+      <TableTitleButton
+        label="レンタル"
+        icon={<Grid2x2Icon stroke="var(--primary)" />}
+        disabled
+      />
 
-      {/* アウター */}
-      <ol className={styles.descriptionList}>
-        <li className={styles.descriptionItem}>
-          <h3>レンタルしてみましょう</h3>
+      {/* フィルタ */}
+      <div className={styles.filters}>
+        <div className={styles.categorySelectorWrapper}>
+          <CategorySelect value={categoryCode} onCategoryChange={setCategoryCode} />
+        </div>
+        <SearchBar value={keyword} onChange={setKeyword} onSearch={handleSearch} />
+      </div>
 
-          {/* インナー */}
-          <ol className={styles.subDescriptionList}>
-            <li className={styles.subDescriptionItem}>
-              ヘッダーメニューにある
-              <Link
-                className={styles.rentalLink}
-                href={getAssetsPath()}
-              >
-                レンタル
-              </Link>
-              ボタンをクリックすると<strong>アセット</strong>が一覧表示されます。
-            </li>
+      <p>{pageInfo.totalElements} 件</p>
 
-            <li className={styles.subDescriptionItem}>
-              <span
-                className={styles.addCartText}
-              >
-                カートに追加する
-              </span>
-              ボタンを<strong>クリックする度</strong>にアセットを<strong>カートに追加</strong>できます。
-            </li>
+      <div className={styles.listWrapper}>
+        {/* テーブル */}
+        <AssetTableView
+          assets={assets}
+          addToCart={addToCart}
+          cartItems={cartItems}
+          updateQueryParams={updateQueryParams}
+          sortField={searchParams.sortField}
+          sortDirection={searchParams.sortDirection}
+          totalPages={pageInfo.totalPages}
+        />
 
-            <li className={styles.subDescriptionItem}>
-              <strong>１つ以上</strong>のアセットをカートに追加し
-              <ShoppingCartIcon />
-              のボタンをクリックすると、カート内のアセットを<strong>管理</strong>することができます。
-              <br />
-              レンタルするアセットの個数の <strong>増減・削除・一括削除</strong> ができます。
-            </li>
-
-            <li className={styles.subDescriptionItem}>
-              カートの
-              <span
-                className={styles.rentalLink}
-              >
-                レンタルする
-              </span>
-              をクリックすると登録画面に遷移します。
-            </li>
-
-            <li className={styles.subDescriptionItem}>
-              必要項目を入力し
-              <span
-                className={styles.addCartText}
-              >
-                確定する
-              </span>
-              をクリックするとレンタルした結果画面が表示されます。
-            </li>
-
-
-
-          </ol>
-
-
-
-        </li>
-      </ol>
+        {/* ページネーション */}
+        <Pagination
+          currentPage={pageInfo.page + 1}
+          totalPages={pageInfo.totalPages}
+          onPageChange={(page) => updateQueryParams((prev) => ({ ...prev, page: page - 1 }))}
+        />
+      </div>
     </>
   );
 }

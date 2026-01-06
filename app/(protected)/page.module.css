@@ -1,34 +1,20 @@
-.pageLayout {}
-
-.descriptionList {
-  list-style-type: decimal;
-  padding-left: 20px;
+.filters {
+  gap: 20px;
+  display: flex;
+  align-items: end;
+  width: 50%;
 }
 
-.subDescriptionList {
-  list-style-type: decimal;
-  padding-left: 40px;
+.categorySelectorWrapper {
+  width: 400px;
 }
 
-.descriptionItem {}
-
-.rentalLink {
-  padding: 10px;
-  color: var(--secondary);
-  background-color: var(--primary);
-  border-radius: 9999px;
-  margin: 10px;
-  font-weight: bold;
+.filtersSearchBar {
+  width: 50%;
 }
 
-.addCartText {
-  padding: 5px;
-  color: var(--secondary);
-  background-color: var(--primary);
-  border-radius: 6px;
-  margin: 10px;
-}
-
-.subDescriptionItem {
-  padding: 10px 0;
+.listWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }

@@ -41,12 +41,12 @@ export function NavigationMenus() {
       />
 
       {/* アセット一覧 */}
-      <MenuBaseButton
+      {/* <MenuBaseButton
         label="レンタル"
         icon={<Grid2x2Icon />}
         onClick={handleAssetsClick}
         isActive={navigationName === 'assets'}
-      />
+      /> */}
     </div>
   );
 }
