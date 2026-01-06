@@ -133,47 +133,49 @@ export default function RentalForm() {
             data={cartItems}
           />
 
-          <div className={styles.inputGroup}>
-            <label className={styles.inputLabel}>返却予定日</label>
-            <Controller
-              name="expectedReturnDate"
-              control={control}
-              rules={{ required: '返却予定日は必須です' }}
-              render={({ field, fieldState }) => (
-                <div style={{ position: 'relative', zIndex: 1000 }}>
-                  <DatePicker
-                    selected={field.value ? new Date(field.value) : null}
-                    onChange={(date: Date | null) => {
-                      field.onChange(date ? date.toISOString().split('T')[0] : '');
-                    }}
-                    dateFormat="yyyy-MM-dd"
-                    locale="ja"
-                    placeholderText="日付を選択"
-                    className={styles.dateInput}
-                    portalId="__next"
-                  />
-                  {fieldState.error && (
-                    <p className={styles.error}>{fieldState.error.message}</p>
-                  )}
-                </div>
-              )}
-            />
-          </div>
+          <div className={styles.inputItems}>
+            <div className={styles.inputGroup}>
+              <label className={styles.inputLabel}>返却予定日</label>
+              <Controller
+                name="expectedReturnDate"
+                control={control}
+                rules={{ required: '返却予定日は必須です' }}
+                render={({ field, fieldState }) => (
+                  <div style={{ position: 'relative', zIndex: 1000 }}>
+                    <DatePicker
+                      selected={field.value ? new Date(field.value) : null}
+                      onChange={(date: Date | null) => {
+                        field.onChange(date ? date.toISOString().split('T')[0] : '');
+                      }}
+                      dateFormat="yyyy-MM-dd"
+                      locale="ja"
+                      placeholderText="日付を選択"
+                      className={styles.dateInput}
+                      portalId="__next"
+                    />
+                    {fieldState.error && (
+                      <p className={styles.error}>{fieldState.error.message}</p>
+                    )}
+                  </div>
+                )}
+              />
+            </div>
 
-          <div className={styles.inputGroup}>
-            <label className={styles.inputLabel}>備考</label>
-            <Controller
-              name="remarks"
-              control={control}
-              render={({ field }) => (
-                <textarea
-                  className={styles.remarksTextarea}
-                  {...field}
-                  value={field.value ?? ""}
-                  rows={2}
-                />
-              )}
-            />
+            <div className={styles.inputGroup}>
+              <label className={styles.inputLabel}>備考</label>
+              <Controller
+                name="remarks"
+                control={control}
+                render={({ field }) => (
+                  <textarea
+                    className={styles.remarksTextarea}
+                    {...field}
+                    value={field.value ?? ""}
+                    rows={2}
+                  />
+                )}
+              />
+            </div>
           </div>
 
           {success && <p style={{ color: 'green' }}>{success}</p>}

@@ -30,7 +30,7 @@ export default function RentalResultTableView({ datas }: Props) {
       header: 'レンタルID',
     }),
     columnHelper.accessor('assetId', {
-      header: '資産ID',
+      header: 'アセットID',
     }),
     columnHelper.accessor('unitId', {
       header: 'ユニットID',

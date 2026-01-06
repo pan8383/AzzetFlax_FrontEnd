@@ -1,3 +1,34 @@
-.pageLayout {
-  padding: 0 10vw;
+.pageLayout {}
+
+.descriptionList {
+  list-style-type: decimal;
+  padding-left: 20px;
+}
+
+.subDescriptionList {
+  list-style-type: decimal;
+  padding-left: 40px;
+}
+
+.descriptionItem {}
+
+.rentalLink {
+  padding: 10px;
+  color: var(--secondary);
+  background-color: var(--primary);
+  border-radius: 9999px;
+  margin: 10px;
+  font-weight: bold;
+}
+
+.addCartText {
+  padding: 5px;
+  color: var(--secondary);
+  background-color: var(--primary);
+  border-radius: 6px;
+  margin: 10px;
+}
+
+.subDescriptionItem {
+  padding: 10px 0;
 }

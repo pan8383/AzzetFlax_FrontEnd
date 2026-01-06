@@ -13,7 +13,27 @@
 }
 
 .remarksTextarea {
-  width: 100%;
-  font-size: 14px;
   padding: 4px;
+  width: 50%;
+  font-size: 14px;
+  border-radius: 6px;
+  border: solid 1px #ccc;
+}
+
+.inputItems {
+  padding: 20px 0;
+}
+
+.inputGroup {
+  display: flex;
+  gap: 20px;
+  justify-content: start;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.inputLabel {
+  width: 100px;
+  text-align: end;
+  font-weight: bold;
 }
