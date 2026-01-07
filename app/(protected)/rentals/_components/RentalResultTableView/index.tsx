@@ -29,9 +29,6 @@ export default function RentalResultTableView({ datas }: Props) {
     columnHelper.accessor('rentalId', {
       header: 'レンタルID',
     }),
-    columnHelper.accessor('assetId', {
-      header: 'アセットID',
-    }),
     columnHelper.accessor('unitId', {
       header: 'ユニットID',
     }),
