@@ -2,13 +2,13 @@
 
 import styles from './page.module.css';
 import TableTitleButton from '@/components/common/TableTitleButton';
-import Grid2x2Icon from '@/icons/Grid2x2Icon';
 import Pagination from '@/components/common/Pagination/Pagination';
 import { useRentalList } from '@/components/hooks/useRentalList';
 import { useBreadcrumbs } from '@/components/hooks/useBreadcrumbs';
 import RentalsTableView from './_components/RentalsTableView';
 import RentalListStatusFilter from './_components/RentalListStatusFilter';
 import { RENTAL_LIST } from '@/components/ui/Breadcrumbs/breadcrumbs';
+import HistoryIcon from '@/icons/HistoryIcon';
 
 export default function Page() {
   const { rentals, pageInfo, loading, fetchError, updateQueryParams, searchParams } = useRentalList(20);
@@ -21,7 +21,7 @@ export default function Page() {
       {/* タイトル */}
       <TableTitleButton
         label="レンタル履歴"
-        icon={<Grid2x2Icon stroke="var(--primary)" />}
+        icon={<HistoryIcon stroke="var(--primary)" />}
         disabled
       />
       <div className={styles.tableOptions}>
