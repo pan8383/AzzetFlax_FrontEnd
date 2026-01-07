@@ -13,9 +13,6 @@ import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useAssetUnits } from '@/components/hooks/useAssetUnits';
 
-/* =========================
- * フォーム用DTO
- * ========================= */
 type AssetUnitCreateFormValues = {
 	assetId: string;
 	serialNumber: string;
@@ -86,15 +83,15 @@ export default function AssetUnitCreateForm({ assetId, isOpen, onToggle }: Props
 					if (e.key === 'Enter') e.preventDefault();
 				}}
 			>
-				{/* シリアル番号 */}
+				{/* シリアルナンバー */}
 				<div className={styles.inputGroup}>
-					<label className={styles.inputLabel}>シリアル番号*</label>
+					<label className={styles.inputLabel}>シリアルナンバー*</label>
 					<input
 						className={styles.input}
 						type="text"
 						placeholder="X2025AB01"
 						{...register('serialNumber', {
-							required: 'シリアル番号は必須です',
+							required: 'シリアルナンバーは必須です',
 							minLength: { value: 2, message: '2文字以上で入力してください' },
 							maxLength: { value: 100, message: '100文字以内で入力してください' },
 						})}
@@ -106,11 +103,11 @@ export default function AssetUnitCreateForm({ assetId, isOpen, onToggle }: Props
 
 				{/* ロケーション */}
 				<div className={styles.inputGroup}>
-					<label className={styles.inputLabel}>ロケーション*</label>
+					<label className={styles.inputLabel}>管理所在地*</label>
 					<Controller
 						name="locationCode"
 						control={control}
-						rules={{ required: 'ロケーションは必須です' }}
+						rules={{ required: '管理所在地は必須です' }}
 						render={({ field, fieldState }) => (
 							<>
 								<LocationsSelect

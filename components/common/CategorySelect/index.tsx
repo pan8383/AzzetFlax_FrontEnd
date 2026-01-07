@@ -1,7 +1,7 @@
 'use client';
 
-import clsx from 'clsx';
 import styles from './CategorySelect.module.css';
+import clsx from 'clsx';
 import { useCategory } from '@/components/hooks/useCategory';
 
 type CategorySelectProps = {

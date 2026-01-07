@@ -3,10 +3,6 @@ import { useCallback, useEffect, useState } from "react";
 import { Category, CategoryResponse } from "@/types/api/api";
 import { getCategoryListApiPath } from "./useNavigation";
 
-
-/**
- * カテゴリーを取得する
- */
 export function useCategory() {
   const CATEGORY_LIST_API_PATH = getCategoryListApiPath();
   const [category, setcategory] = useState<Category[]>([]);

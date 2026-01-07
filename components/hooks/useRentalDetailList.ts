@@ -33,7 +33,6 @@ export function useRentalDetailList({ rentalId }: Props) {
     }
   }, [rentalId]);
 
-  // 初回 & rentalId 変更時
   useEffect(() => {
     fetchRentalDetails();
   }, [fetchRentalDetails]);

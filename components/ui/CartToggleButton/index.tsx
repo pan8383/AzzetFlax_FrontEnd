@@ -6,11 +6,11 @@ import ShoppingCartIcon from "@/icons/ShoppingCartIcon";
 import CartPanel from "../CartPanel";
 import MenuBaseButton from '@/components/common/MenuBaseButton';
 
-type CartToggleButtonProps = {
+type Props = {
   count: number;
 };
 
-export default function CartToggleButton({ count }: CartToggleButtonProps) {
+export default function CartToggleButton({ count }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const handleToggle = () => setIsOpen(prev => !prev);
   const handleClose = () => setIsOpen(false);

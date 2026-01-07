@@ -27,7 +27,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Azzet Flax',
+  title: 'Azzet Flux',
   description: 'レンタルサービスを提供します',
 };
 

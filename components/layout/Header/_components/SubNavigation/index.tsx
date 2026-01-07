@@ -2,7 +2,7 @@
 
 import styles from './SubNavigation.module.css';
 import Grid2x2Icon from "@/icons/Grid2x2Icon";
-import { getAssetsPath, getRentalListPath, useNavigateAssets, useNavigateRentalList, useNavigateRentalReturn } from "@/components/hooks/useNavigation";
+import { getRentalListPath, useNavigateHome, useNavigateRentalList } from "@/components/hooks/useNavigation";
 import MenuBaseButton from '@/components/common/MenuBaseButton';
 import HistoryIcon from '@/icons/HistoryIcon';
 import { usePathname } from 'next/navigation';
@@ -10,19 +10,19 @@ import { usePathname } from 'next/navigation';
 type NavigationName = null | 'assets' | 'rentalList';
 
 export function NavigationMenus() {
-  const navigateAssets = useNavigateAssets();
+  const navigateHome = useNavigateHome();
   const navigateRentalHistory = useNavigateRentalList();
   const pathname = usePathname();
   let navigationName: NavigationName = null;
 
-  if (pathname.startsWith(getAssetsPath())) {
+  if (pathname === '/') {
     navigationName = 'assets';
   } else if (pathname.endsWith(getRentalListPath())) {
     navigationName = 'rentalList';
   }
 
   const handleAssetsClick = () => {
-    navigateAssets();
+    navigateHome();
   };
 
   const handleHistoryClick = () => {
@@ -41,12 +41,12 @@ export function NavigationMenus() {
       />
 
       {/* アセット一覧 */}
-      {/* <MenuBaseButton
+      <MenuBaseButton
         label="レンタル"
         icon={<Grid2x2Icon />}
         onClick={handleAssetsClick}
         isActive={navigationName === 'assets'}
-      /> */}
+      />
     </div>
   );
 }

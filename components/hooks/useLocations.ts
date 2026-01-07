@@ -3,10 +3,6 @@ import { useCallback, useEffect, useState } from "react";
 import { getLocationsListApiPath } from "./useNavigation";
 import { Location, LocationsResponse } from "@/types/api/api";
 
-
-/**
- * ロケーションを取得する
- */
 export function useLocations() {
   const LOCATIONS_LIST_API_PATH = getLocationsListApiPath();
   const [locations, setlocations] = useState<Location[]>([]);

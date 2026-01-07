@@ -4,7 +4,6 @@ import { AssetUnitDetail, AssetUnitResponse } from '@/types/api/api';
 import { getAssetUnitsApiPath } from './useNavigation';
 
 export function useAssetUnits(assetId: string) {
-  // 状態管理
   const [assetUnits, setAssetUnits] = useState<AssetUnitDetail[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [fetchError, setFetchError] = useState<boolean>(false);

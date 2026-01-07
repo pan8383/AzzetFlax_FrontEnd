@@ -9,7 +9,7 @@
   font-size: 0.95rem;
   border: 1px solid var(--border);
   border-radius: 6px;
-  background-color: var(--background);
+  background-color: var(--secondary);
   color: var(--text-primary);
   transition: border-color 0.2s ease;
 }

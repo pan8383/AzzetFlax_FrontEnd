@@ -78,8 +78,8 @@ export default function RentalListDetailTableView({ rentalId, rentalDetails }: P
               status === 'RETURNED'
                 ? styles.returned
                 : status === 'RENTING'
-                  ? styles.renting
-                  : styles.cancelled
+                  ? styles.rented
+                  : styles.rented
             }
           >
             {rentalUnitStatusLabelMap[status]}

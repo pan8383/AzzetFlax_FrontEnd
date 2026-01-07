@@ -167,7 +167,7 @@ export default function AssetUpdateForm({ data, onUpdated, isOpen, onToggle }: P
 					</div>
 				</div>
 
-				{/* 型番 */}
+				{/* 型番  */}
 				<div className={styles.inputGroup}>
 					<div className={styles.inputGroupInner}>
 						<label className={styles.inputLabel}>
