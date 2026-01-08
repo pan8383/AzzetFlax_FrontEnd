@@ -135,10 +135,7 @@ export default function SignupForm({ refreshUsers }: { refreshUsers: () => void 
 						id="role"
 						{...register('role')}>
 						<option value="ADMIN">管理者</option>
-						<option value="STAFF">スタッフ</option>
 						<option value="MEMBER">一般ユーザー</option>
-						<option value="VIEWER">閲覧者</option>
-						<option value="GUEST">ゲスト</option>
 					</select>
 				</div>
 
