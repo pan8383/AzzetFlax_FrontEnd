@@ -152,6 +152,7 @@ export default function RentalForm() {
                       placeholderText="日付を選択"
                       className={styles.dateInput}
                       portalId="__next"
+                      minDate={new Date()}
                     />
                     {fieldState.error && (
                       <p className={styles.error}>{fieldState.error.message}</p>

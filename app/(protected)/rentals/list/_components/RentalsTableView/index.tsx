@@ -44,7 +44,7 @@ export default function RentalsTableView({ rentals, totalPages, updateQueryParam
       cell: ({ getValue }) => formatDate(getValue()),
     }),
     columnHelper.accessor('actualReturnDate', {
-      header: '返却日',
+      header: '返却完了日',
       enableSorting: true,
       cell: ({ getValue }) => formatDate(getValue()),
     }),
